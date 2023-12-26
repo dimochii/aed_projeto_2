@@ -8,4 +8,6 @@ add_executable(untitled main.cpp
         Graph.cpp
         HashTable.cpp
         Script.cpp
-        Statistics.cpp)
+        Statistics.cpp
+        Filters.h
+        Filters.cpp)
