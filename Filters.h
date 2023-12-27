@@ -11,9 +11,10 @@ using namespace std;
 
 class Filters {
 public:
-    void bestOptionCities(Graph* g, string source, string dest);
+    static void bestOptionCities(Graph* g, string source, string dest);
 
     static void besOptionAirports(Graph *g, string source, string dest);
+
 };
 
 
