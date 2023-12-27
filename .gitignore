@@ -1,0 +1,12 @@
+# Arquivos gerados pelo sistema
+cmake-build-*/
+
+# Arquivos do CLion
+.idea/
+
+# Executáveis
+*.exe
+*.out
+
+# Arquivos temporários
+*~
