@@ -307,8 +307,9 @@ void Statistics::topKAirTraffic(Graph *graph, int k){   // antes de chamar mos e
     Vertex* vSource = graph->getVertexSet()[0];
 
         queue<Vertex *> vQueue;
-        for (auto vertex : graph->getVertexSet())
+        for (auto vertex : graph->getVertexSet()) {
             vertex->setVisited(false);
+        }
 
         vQueue.push(vSource);
         vSource->setVisited(true);

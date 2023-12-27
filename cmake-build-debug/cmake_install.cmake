@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/diana_9kbxrpt/Downloads/AED/untitled
+# Install script for directory: C:/Users/diana_9kbxrpt/Downloads/AED/AED_PROJECT_2_ATUAL
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/diana_9kbxrpt/Downloads/AED/untitled/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/diana_9kbxrpt/Downloads/AED/AED_PROJECT_2_ATUAL/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

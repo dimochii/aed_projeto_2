@@ -1,3 +1,3 @@
-C:/Users/diana_9kbxrpt/Downloads/AED/untitled/cmake-build-debug/CMakeFiles/untitled.dir
-C:/Users/diana_9kbxrpt/Downloads/AED/untitled/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/diana_9kbxrpt/Downloads/AED/untitled/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/diana_9kbxrpt/Downloads/AED/AED_PROJECT_2_ATUAL/cmake-build-debug/CMakeFiles/untitled.dir
+C:/Users/diana_9kbxrpt/Downloads/AED/AED_PROJECT_2_ATUAL/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/diana_9kbxrpt/Downloads/AED/AED_PROJECT_2_ATUAL/cmake-build-debug/CMakeFiles/rebuild_cache.dir

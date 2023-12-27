@@ -96,6 +96,8 @@ bool Graph::addEdge(Vertex *sourc, Vertex* dest, const Airline* airline) {
     return true;
 }
 
+
+
 bool Graph::removeEdge(Vertex* sourc, Vertex* dest) {
     return sourc->removeEdgeTo(dest);
 }
