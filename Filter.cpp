@@ -1,6 +1,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <sstream>
 #include <set>
 #include "Filter.h"
 #include "HashTable.h"
@@ -42,8 +43,6 @@ float Filter::harvesineDistance(Graph *graph, double lat1, double lon1, double l
     return radiusEarth * c;
 }
 
-vector<vector<pair<Airline, Vertex*>>> minPathAirports(Graph* g, Vertex* source, Vertex* dest);
-vector<vector<pair<Airline, Vertex*>>> bestOptionMix(Graph* g, string source, string dest);
 
 void Filter::minAirlines(Graph* g, string source, string dest){
     vector<vector<pair<Airline, Vertex*>>> bestOptions;
@@ -111,7 +110,7 @@ void Filter::bestOptionNoFilters(Graph* g, string source, string dest){
 
 }
 
-vector<vector<pair<Airline, Vertex*>>> minPathAirports(Graph* g, Vertex* source, Vertex* dest){
+vector<vector<pair<Airline, Vertex*>>> Filter::minPathAirports(Graph* g, Vertex* source, Vertex* dest){
     vector<vector<pair<Airline, Vertex*>>> res;
     for(auto vertex: g->getVertexSet()){
         vertex->setVisited(false);
@@ -161,7 +160,7 @@ vector<vector<pair<Airline, Vertex*>>> minPathAirports(Graph* g, Vertex* source,
     }
 }
 
-vector<vector<pair<Airline, Vertex*>>> bestOptionMix(Graph* g, string source, string dest){
+vector<vector<pair<Airline, Vertex*>>> Filter::bestOptionMix(Graph* g, string source, string dest){
     vector<Vertex*> AirportS;
     vector<Vertex*> AirportD;
     if(isupper(source.back())){
@@ -208,3 +207,80 @@ vector<vector<pair<Airline, Vertex*>>> bestOptionMix(Graph* g, string source, st
     }
     return bestOptions;
 }
+
+vector<string> Filter::airlineFilter(string str, HashTable* hashTable) {
+    vector<string> airlineNames;
+    vector<string> airlineCodes;
+    istringstream iss(str);
+    string airline;
+    while (getline(iss, airline, ',')) {
+        airlineNames.push_back(airline);
+    }
+    auto airlines = hashTable->getAirlines();
+
+    for (auto air: airlines) {
+        auto it = find(airlineNames.begin(), airlineNames.end(), air.getName());
+        if (it != airlineNames.end()) {
+            airlineCodes.push_back(air.getCode());
+        }
+    }
+    return airlineCodes;
+}
+
+HashTable* Filter::airlineFilterHash(vector<string> airlineCodes, HashTable* hashTable){
+
+    auto airlines = hashTable->getAirlines();
+    HashTable* newHashTable = new HashTable();
+
+    for (auto air : airlines) {
+        auto it = find(airlineCodes.begin(),airlineCodes.end(),air.getCode());
+        if(it!=airlineCodes.end()){
+            std::cout<<air.getName();
+            newHashTable->addAirline(air);
+        }
+
+    }
+    return newHashTable;
+
+}
+
+Graph* Filter::airlineFilterGraph( vector<string> airlineCodes,Graph* graph, HashTable* hashTable){
+    Graph* graph1 = new Graph();
+
+    Vertex* vSource = graph->getVertexSet()[0];
+
+    queue<Vertex *> vQueue;
+    for (auto vertex : graph->getVertexSet())
+        vertex->setVisited(false);
+
+    vQueue.push(vSource);
+    vSource->setVisited(true);
+
+    while (!vQueue.empty()) {
+        Vertex* v = vQueue.front();
+        vQueue.pop();
+
+        for (Edge edge : v->getFlights()) {
+            Vertex* w = edge.getDestination();
+
+            auto it = find(airlineCodes.begin(),airlineCodes.end(),edge.getAirline().getCode());
+            if(it!=airlineCodes.end()){
+                auto air = *it;
+                auto it2 = hashTable->findAirline(air);
+                Airport* source =new Airport(v->getAirport());
+                Airport* dest =new Airport(edge.getDestination()->getAirport());
+                graph1->addVertex(*source);graph1->addVertex(*dest);
+                auto vertSource = graph1->findVertex(*source);
+                auto vertDest = graph1->findVertex(*dest);
+                graph1->addEdge(vertSource, vertDest, it2);
+            }
+
+            if ( !w->isVisited() ) {
+                vQueue.push(w);
+                w->setVisited(true);
+            }
+        }
+    }
+    return graph1;
+}
+
