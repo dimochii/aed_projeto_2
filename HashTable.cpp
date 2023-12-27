@@ -6,6 +6,7 @@ Airline::Airline(string code_, string name_, string callsign_, string country_):
                                         name(name_), callsign(callsign_), country(country_) {}
 
 string Airline::getCode() const {return code; }
+string Airline::getName() const{return name; }
 bool Airline::operator < ( const Airline& air) const {
     return code<air.getCode();
 }
