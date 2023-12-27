@@ -1,6 +1,7 @@
 
 #include <fstream>
 #include <sstream>
+#include <iostream>
 #include "Script.h"
 #include "Airport.h"
 #include "HashTable.h"
@@ -8,7 +9,6 @@
 using namespace std;
 
 void Script::infoCollection(Graph* graph, HashTable* hashTable) {
-
     ifstream File1("../dataset/airports.csv");
     if (File1.is_open()){
         string line;
