@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/sofia/OneDrive/Documentos/Uni/AED/Projeto 2/aed_projeto_2
+# Install script for directory: C:/Users/marta/Downloads/AEDProjeto5/aed_projeto_2
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,7 +34,7 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/Program Files/JetBrains/CLion 2023.2.2/bin/mingw/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "C:/Users/marta/OneDrive/Imagens/Ambiente de Trabalho/CLion 2023.2.2/bin/mingw/bin/objdump.exe")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/sofia/OneDrive/Documentos/Uni/AED/Projeto 2/aed_projeto_2/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/marta/Downloads/AEDProjeto5/aed_projeto_2/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
