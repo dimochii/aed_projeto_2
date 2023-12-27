@@ -6,7 +6,7 @@
 #include "Filter.h"
 #include "HashTable.h"
 
-void Filter::geographicalLocation(Graph *graph, double lat, double lon) {
+vector<Airport> Filter::geographicalLocation(Graph *graph, double lat, double lon) {
     vector<Airport> res; double distance = 40000;
     for (Vertex* vertex: graph->getVertexSet()) {
         Airport airport = vertex->getAirport();
@@ -19,11 +19,7 @@ void Filter::geographicalLocation(Graph *graph, double lat, double lon) {
         } else if (dist == distance)
             res.push_back(airport);
     }
-
-    cout << res.size() << endl;
-    for (Airport airport: res)
-        cout << airport.getCode() << endl;
-
+    return res;
 }
 
 float Filter::harvesineDistance(Graph *graph, double lat1, double lon1, double lat2, double lon2) {
@@ -43,52 +39,39 @@ float Filter::harvesineDistance(Graph *graph, double lat1, double lon1, double l
     return radiusEarth * c;
 }
 
-
-void Filter::minAirlines(Graph* g, string source, string dest){
-    vector<vector<pair<Airline, Vertex*>>> bestOptions;
-    vector<vector<pair<Airline, Vertex*>>> filteredOptions;
-    set<Airline> airlines;
-    int min=10000;
-    bestOptions= bestOptionMix(g, source, dest);
-    for(auto option: bestOptions){
-        airlines.clear();
-        for(auto p: option){
-            airlines.insert(p.first);
-        }
-
-        if(airlines.size()<min){
-            min=airlines.size();
-            filteredOptions.clear();
-            filteredOptions.push_back(option);
-        }
-        else if(airlines.size()==min){
-            filteredOptions.push_back(option);
+vector<Airport> Filter::AirportsCity(Graph *g, string city){
+    vector<Airport> res;
+    for(auto airport: g->getVertexSet()){
+        if(airport->getAirport().getCity()==city){
+            res.push_back(airport->getAirport());
         }
     }
-
-    int i=0;
-    for(auto vetor: filteredOptions){
-        bool first=true;
-        string last;
-        i++;
-        cout<<"Option "<<i<<":"<<endl;
-        for(auto p: vetor){
-            if(first){
-                first=false;
-            }
-            else{
-                cout<<last <<' '<< p.first.getCode()<<' '<<p.second->getAirport().getCode()<<endl;
-            }
-            last=p.second->getAirport().getCode();
-        }
-        cout<<endl;
-    }
-    return;
+    return res;
 }
 
-void Filter::bestOptionNoFilters(Graph* g, string source, string dest){
+vector<Airport> Filter::AirportCode(Graph *g, string code){
+    vector<Airport> res;
+    for(auto vertex: g->getVertexSet()){
+        if(vertex->getAirport().getCode()==code){
+            res.push_back(vertex->getAirport());
+            return res;
+        }
+    }
+}
+
+vector<Airport> Filter::AirportName(Graph *g, string name){
+    vector<Airport> res;
+    for(auto vertex: g->getVertexSet()){
+        if(vertex->getAirport().getName()==name){
+            res.push_back(vertex->getAirport());
+            return res;
+        }
+    }
+}
+
+void Filter::bestOptionNoFilters(Graph* g, vector<Airport> sourceV, vector<Airport> destV){
     vector<vector<pair<Airline, Vertex*>>> bestOptions;
-    bestOptions= bestOptionMix(g, source, dest);
+    bestOptions= bestOptionMix(g, sourceV, destV);
     int i=0;
     for(auto vetor: bestOptions){
         bool first=true;
@@ -160,37 +143,13 @@ vector<vector<pair<Airline, Vertex*>>> Filter::minPathAirports(Graph* g, Vertex*
     }
 }
 
-vector<vector<pair<Airline, Vertex*>>> Filter::bestOptionMix(Graph* g, string source, string dest){
-    vector<Vertex*> AirportS;
-    vector<Vertex*> AirportD;
-    if(isupper(source.back())){
-        Vertex* vSource = g->findVertexAirport(source);
-        AirportS.push_back(vSource);
-    }
-    else{
-        for(auto airport: g->getVertexSet()){
-            if(airport->getAirport().getCity()==source){
-                AirportS.push_back(airport);
-            }
-        }
-    }
-
-    if(isupper(dest.back())){
-        Vertex* vDest = g->findVertexAirport(dest);
-        AirportD.push_back(vDest);
-    }
-    else{
-        for(auto airport: g->getVertexSet()){
-            if(airport->getAirport().getCity()==dest){
-                AirportD.push_back(airport);
-            }
-        }
-    }
-
+vector<vector<pair<Airline, Vertex*>>> Filter::bestOptionMix(Graph* g, vector<Airport> sourceV, vector<Airport> destV){
     int min=100000;
     vector<vector<pair<Airline, Vertex*>>> bestOptions;
-    for(auto airportS: AirportS){
-        for(auto airportD: AirportD){
+    for(auto airportS_: sourceV){
+        for(auto airportD_: destV){
+            Vertex* airportS = g->findVertex(airportS_);
+            Vertex* airportD = g->findVertex(airportD_);
             vector<vector<pair<Airline, Vertex*>>> current=minPathAirports(g, airportS, airportD);
 
             if(current[0].size()<min){
@@ -206,6 +165,48 @@ vector<vector<pair<Airline, Vertex*>>> Filter::bestOptionMix(Graph* g, string so
         }
     }
     return bestOptions;
+}
+
+void Filter::minAirlines(Graph* g, vector<Airport> sourceV, vector<Airport> destV){
+    vector<vector<pair<Airline, Vertex*>>> bestOptions;
+    vector<vector<pair<Airline, Vertex*>>> filteredOptions;
+    set<Airline> airlines;
+    int min=10000;
+    bestOptions= bestOptionMix(g, sourceV, destV);
+    for(auto option: bestOptions){
+        airlines.clear();
+        for(auto p: option){
+            airlines.insert(p.first);
+        }
+
+        if(airlines.size()<min){
+            min=airlines.size();
+            filteredOptions.clear();
+            filteredOptions.push_back(option);
+        }
+        else if(airlines.size()==min){
+            filteredOptions.push_back(option);
+        }
+    }
+
+    int i=0;
+    for(auto vetor: filteredOptions){
+        bool first=true;
+        string last;
+        i++;
+        cout<<"Option "<<i<<":"<<endl;
+        for(auto p: vetor){
+            if(first){
+                first=false;
+            }
+            else{
+                cout<<last <<' '<< p.first.getCode()<<' '<<p.second->getAirport().getCode()<<endl;
+            }
+            last=p.second->getAirport().getCode();
+        }
+        cout<<endl;
+    }
+    return;
 }
 
 vector<string> Filter::airlineFilter(string str, HashTable* hashTable) {
