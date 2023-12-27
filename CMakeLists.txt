@@ -10,4 +10,5 @@ add_executable(untitled main.cpp
         Script.cpp
         Statistics.cpp
         Filter.h
-        Filter.cpp)
+        Filter.cpp
+        Menu.cpp)

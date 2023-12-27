@@ -2,12 +2,15 @@
 #include "Script.h"
 #include "Graph.h"
 #include "HashTable.h"
-#include "Statistics.h"
-#include "Filter.h"
+#include "Menu.h"
 
 int main() {
-    Graph* graph = new Graph();
-    HashTable* hashTable = new HashTable();
+    Menu menu = Menu();
+
+    Graph* graph = menu.getGraph();
+    HashTable* hashTable = menu.getHashTable();
+
+    menu.openMenu();
     Script::infoCollection(graph, hashTable);
 
     return 0;
