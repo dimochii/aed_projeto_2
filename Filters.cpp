@@ -26,17 +26,19 @@ void Filters::bestOptionCities(Graph* g, string source, string dest) {
 }
 
 void Filters::besOptionAirports(Graph* g, string source, string dest){
-    vector<vector<Vertex*>> res;
+    vector<vector<pair<Airline, Vertex*>>> res;
     for(auto vertex: g->getVertexSet()){
         vertex->setVisited(false);
     }
-    //vector<Vertex*> res;
+
     Vertex* vSource = g->findVertexAirport(source);
     vSource->setVisited(true);
     Vertex* vDest = g->findVertexAirport(dest);
-    queue<pair<vector<Vertex*>, int >> q;
-    vector<Vertex*> v;
-    v.push_back(vSource);
+    queue<pair<vector<pair<Airline, Vertex*>>, int >> q;
+    vector<pair<Airline, Vertex*>> v;
+
+
+    v.push_back(make_pair(Airline(), vSource));
     q.push(make_pair(v, 0));
     int min=1000000;
     while(!q.empty()){
@@ -46,36 +48,38 @@ void Filters::besOptionAirports(Graph* g, string source, string dest){
 
         if(d>min){
             for(auto vetor: res){
-                for(auto ve: vetor){
-                    cout<< ve->getAirport().getCode() << ' ';
+                bool first=true;
+                string last;
+                for(auto p: vetor){
+                    if(first){
+                        first=false;
+                    }
+                    else{
+                        cout<<last <<' '<< p.first.getCode()<<' '<<p.second->getAirport().getCode()<<endl;
+                    }
+                    last=p.second->getAirport().getCode();
                 }
-                cout<<endl;
             }
             return;
         }
 
-        else if (vertex.back() == vDest) {
+        else if (vertex.back().second == vDest) {
             if (d <= min) {
                 min = d;
                 res.push_back(vertex);
             }
         }
         else {
-            for (auto edge: vertex.back()->getFlights()) {
+            for (auto edge: vertex.back().second->getFlights()) {
                 auto destV = edge.getDestination();
                 if(!destV->isVisited()){
                     destV->setVisited(true);
-                    vertex.push_back(destV);
+
+                    vertex.push_back(make_pair(edge.getAirline(), destV));
                     q.emplace(vertex, d + 1);
                 }
 
             }
         }
     }
-    //for(auto vetor: res){
-        /*for(auto vertex: res){
-            cout<<vertex->getAirport().getCode()<<' ';
-        }
-        cout<<endl;*/
-    //}
 }

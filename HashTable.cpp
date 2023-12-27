@@ -10,6 +10,8 @@ bool Airline::operator < ( const Airline& air) const {
     return code<air.getCode();
 }
 
+Airline::Airline() {}
+
 HashTable::HashTable() {}
 
 void HashTable::addAirline (const Airline& airline) { airlines.insert(airline); }

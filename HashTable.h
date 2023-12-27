@@ -15,6 +15,7 @@ class Airline {
 
 public:
     Airline(string code_, string name_, string callsign_, string country_);
+    Airline();
     string getCode() const;
     bool operator < (const Airline& airline) const;
 };
