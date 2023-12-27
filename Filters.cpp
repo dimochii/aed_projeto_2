@@ -86,7 +86,7 @@ vector<vector<pair<Airline, Vertex*>>> minPathAirports(Graph* g, Vertex* source,
     for(auto vertex: g->getVertexSet()){
         vertex->setVisited(false);
     }
-    
+
     source->setVisited(true);
 
     queue<pair<vector<pair<Airline, Vertex*>>, int >> q;
@@ -112,15 +112,20 @@ vector<vector<pair<Airline, Vertex*>>> minPathAirports(Graph* g, Vertex* source,
             }
         }
         else {
+            vector<Vertex*> dests;
             for (auto edge: vertex.back().second->getFlights()) {
                 auto destV = edge.getDestination();
+                auto vertexC=vertex;
                 if(!destV->isVisited()){
-                    destV->setVisited(true);
+                    dests.push_back(destV);
 
-                    vertex.push_back(make_pair(edge.getAirline(), destV));
-                    q.emplace(vertex, d + 1);
+
+                    vertexC.push_back(make_pair(edge.getAirline(), destV));
+                    q.emplace(vertexC, d + 1);
                 }
-
+            }
+            for(auto v_: dests){
+                v_->setVisited(true);
             }
         }
     }
