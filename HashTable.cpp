@@ -1,7 +1,7 @@
 
-#include <algorithm>
 #include "HashTable.h"
 
+Airline::Airline() {}
 Airline::Airline(string code_, string name_, string callsign_, string country_): code(code_),
                                         name(name_), callsign(callsign_), country(country_) {}
 
@@ -9,6 +9,7 @@ string Airline::getCode() const {return code; }
 bool Airline::operator < ( const Airline& air) const {
     return code<air.getCode();
 }
+
 
 HashTable::HashTable() {}
 

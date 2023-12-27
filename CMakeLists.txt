@@ -9,5 +9,5 @@ add_executable(untitled main.cpp
         HashTable.cpp
         Script.cpp
         Statistics.cpp
-        Filters.h
-        Filters.cpp)
+        Filter.h
+        Filter.cpp)
