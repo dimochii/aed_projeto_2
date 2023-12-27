@@ -1,8 +1,0 @@
-# ninja log v5
-27	864	7253319170279071	CMakeFiles/untitled.dir/HashTable.cpp.obj	de53e8712c52373a
-4	956	7253319171205383	CMakeFiles/untitled.dir/main.cpp.obj	a6ee14c6be0022f1
-13	547	7253319167145525	CMakeFiles/untitled.dir/Airport.cpp.obj	c637bc6c212b867a
-43	1781	7253319179471678	CMakeFiles/untitled.dir/Statistics.cpp.obj	b973ae0200c3b79a
-35	1099	7253319172660548	CMakeFiles/untitled.dir/Script.cpp.obj	ec0f4f178cb21f80
-20	983	7253319171503783	CMakeFiles/untitled.dir/Graph.cpp.obj	56b98495b0663ec2
-1781	2119	7253319182837839	untitled.exe	3dd80baeaf43faf5

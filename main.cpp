@@ -3,6 +3,7 @@
 #include "Graph.h"
 #include "HashTable.h"
 #include "Statistics.h"
+#include "Filter.h"
 
 int main() {
     Graph* graph = new Graph();
