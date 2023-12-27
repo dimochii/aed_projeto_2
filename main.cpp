@@ -14,6 +14,6 @@ int main() {
     /*for(auto v: Filters::besOptionAirports(graph, "CDG", "KEF")){
         cout<<v->getAirport().getCode() << ' ';
     }*/
-    Filters::bestOptionMix(graph, "Paris", "Keflavik");
+    Filters::bestOptionNoFilters(graph, "OPO", "DXB");
     return 0;
 }

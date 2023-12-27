@@ -11,11 +11,10 @@ using namespace std;
 
 class Filters {
 public:
-    /*static void bestOptionCities(Graph* g, string source, string dest);
 
-    static void bestOptionAirports(Graph *g, string source, string dest);*/
+    static void bestOptionNoFilters(Graph *g, string source, string dest);
 
-    static void bestOptionMix(Graph *g, string source, string dest);
+    static void minAirlines(Graph *g, string source, string dest);
 };
 
 
