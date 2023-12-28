@@ -9,9 +9,8 @@ int main() {
 
     Graph* graph = menu.getGraph();
     HashTable* hashTable = menu.getHashTable();
-
-    menu.openMenu();
+    
     Script::infoCollection(graph, hashTable);
-
+    menu.openMenu();
     return 0;
 }

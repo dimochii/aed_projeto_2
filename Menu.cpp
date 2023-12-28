@@ -60,14 +60,14 @@ void Menu::sourceLocation() {
         string code; cin >> code;
 
         airportsSource = Filter::AirportCode(graph, code);
-        destinationLocation(airportsSource);
+
     }
     if (option == "2"){
         cout << "Airport Name: ";
         string name; cin >> name;
 
         airportsSource = Filter::AirportName(graph, name);
-        destinationLocation(airportsSource);
+
     }
     if (option == "3"){
         cout << "City: ";
@@ -75,7 +75,6 @@ void Menu::sourceLocation() {
 
         airportsSource = Filter::AirportsCity(graph, city);
 
-        destinationLocation(airportsSource);
     }
     if (option == "4"){
         cout << "Latitude: ";
@@ -85,11 +84,12 @@ void Menu::sourceLocation() {
         double longitude; cin >> longitude;
 
         airportsSource = Filter::geographicalLocation(graph, latitude, longitude);
-        destinationLocation(airportsSource);
+
     }
     if (option == "5"){initialOptions();}
 
-    //destinationLocation(airportsSource);
+    cout << " " << endl;
+    destinationLocation(airportsSource);
 }
 
 void Menu::destinationLocation(vector<Airport> airportsSource){
@@ -109,21 +109,21 @@ void Menu::destinationLocation(vector<Airport> airportsSource){
         string code; cin >> code;
 
         airportsDest = Filter::AirportCode(graph, code);
-        Filter::bestOptionNoFilters(graph, airportsSource, airportsDest);
+
     }
     if (option == "2"){
         cout << "Airport Name: ";
         string name; cin >> name;
 
         airportsDest = Filter::AirportName(graph, name);
-        Filter::bestOptionNoFilters(graph, airportsSource, airportsDest);
+
     }
     if (option == "3"){
         cout << "City: ";
         string city; cin >> city;
 
         airportsDest = Filter::AirportsCity(graph, city);
-        Filter::bestOptionNoFilters(graph, airportsSource, airportsDest);
+
     }
     if (option == "4"){
         cout << "Latitude: ";
@@ -133,7 +133,7 @@ void Menu::destinationLocation(vector<Airport> airportsSource){
         double longitude; cin >> longitude;
 
         airportsDest = Filter::geographicalLocation(graph, latitude, longitude);
-        Filter::bestOptionNoFilters(graph, airportsSource, airportsDest);
+
     }
     if (option == "5"){sourceLocation();}
 
@@ -146,8 +146,9 @@ void Menu::destinationLocation(vector<Airport> airportsSource){
         cout<<d.getCode()<<' ';
     }
     cout<<"ola";*/
-    //Filter::bestOptionNoFilters(graph, airportsSource, airportsDest);
-    //askContinue();
+    cout << " " << endl;
+    Filter::bestOptionNoFilters(graph, airportsSource, airportsDest);
+    askContinue();
 }
 
 void Menu::askContinue() {
