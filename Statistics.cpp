@@ -14,6 +14,81 @@ void Statistics::totalNumberFlights(Graph* graph) {
 }
 
 
+void Statistics::numFlightOutAir(Graph* graph,Airport airport) {
+    set<Airline> outAirlines;
+    auto it = graph->findVertex(airport);
+    int num = it->getFlights().size();
+
+    for (auto e : it->getFlights())
+        outAirlines.insert(e.getAirline());
+
+    cout <<"Number of flights out of "<<airport.getCode()<<": "<<num<<endl;
+    cout <<"Out of "<<outAirlines.size()<<" different airlines."<<endl;
+}
+
+
+void Statistics::flightsPerCity(Graph* g, string city) {
+    int count=0;
+    for (auto vertex: g->getVertexSet()) {
+        if (vertex->getAirport().getCity()==city)
+            count+=vertex->getFlights().size();
+    }
+    cout << "Number of flights on city " << city << ": " << count << endl;
+}
+
+void Statistics::flightsPerAirline(Graph*g, Airline airline) {
+    int count=0;
+    for (auto vertex: g->getVertexSet()) {
+        for (auto edge: vertex->getFlights()) {
+            if (edge.getAirline().getCode()==airline.getCode())
+                count++;
+        }
+    }
+    cout << "Number of flights on airline " << airline.getCode() << ": " << count << endl;
+}
+
+void Statistics::countriesPerAirport(Graph* g, string airportCode) {
+    int count=0;
+    vector<string> countries;
+    for(auto vertex: g->getVertexSet()){
+        if(vertex->getAirport().getCode()==airportCode){
+            for(auto edge: vertex->getFlights()){
+                auto dest=edge.getDestination();
+                string country=dest->getAirport().getCountry();
+                auto it=find(countries.begin(), countries.end(), country);
+                if (it==countries.end()){
+                    count++;
+                    countries.push_back(country);
+                }
+            }
+        }
+    }
+    cout << count<< endl;
+}
+
+void Statistics::countriesPerCity(Graph* g, string city) {
+    int count=0;
+    vector<string> countries;
+    for(auto vertex: g->getVertexSet()){
+        if(vertex->getAirport().getCity()==city){
+            for(auto edge: vertex->getFlights()){
+                auto dest=edge.getDestination();
+                string country=dest->getAirport().getCountry();
+                auto it=find(countries.begin(), countries.end(), country);
+                if (it==countries.end()){
+                    count++;
+                    countries.push_back(country);
+                }
+            }
+        }
+    }
+    cout << count << endl;
+}
+
+
+
+
+
 vector<Vertex *> Statistics::reachableDestinations(Graph* graph, Airport source, int num) {
     vector<Vertex *> res;
     Vertex* vSource = graph->findVertex(source);
@@ -142,65 +217,7 @@ void Statistics::maxTripVertex(Graph* graph, Vertex* vSource, vector<pair<Airpor
 }
 
 
-void Statistics::flightsPerCity(Graph* g, string city) {
-    int count=0;
-    for(auto vertex: g->getVertexSet()){
-        if(vertex->getAirport().getCity()==city){
-            count+=vertex->getFlights().size();
-        }
-    }
-    cout <<count<< endl;
-}
 
-void Statistics::flightsPerAirline(Graph*g, string airlineCode) {
-    int count=0;
-    for(auto vertex: g->getVertexSet()){
-        for(auto edge: vertex->getFlights()){
-            if(edge.getAirline().getCode()==airlineCode){
-                count++;
-            }
-        }
-    }
-    cout << count<< endl;
-}
-
-void Statistics::countriesPerAirport(Graph* g, string airportCode) {
-    int count=0;
-    vector<string> countries;
-    for(auto vertex: g->getVertexSet()){
-        if(vertex->getAirport().getCode()==airportCode){
-            for(auto edge: vertex->getFlights()){
-                auto dest=edge.getDestination();
-                string country=dest->getAirport().getCountry();
-                auto it=find(countries.begin(), countries.end(), country);
-                if (it==countries.end()){
-                    count++;
-                    countries.push_back(country);
-                }
-            }
-        }
-    }
-    cout << count<< endl;
-}
-
-void Statistics::countriesPerCity(Graph* g, string city) {
-    int count=0;
-    vector<string> countries;
-    for(auto vertex: g->getVertexSet()){
-        if(vertex->getAirport().getCity()==city){
-            for(auto edge: vertex->getFlights()){
-                auto dest=edge.getDestination();
-                string country=dest->getAirport().getCountry();
-                auto it=find(countries.begin(), countries.end(), country);
-                if (it==countries.end()){
-                    count++;
-                    countries.push_back(country);
-                }
-            }
-        }
-    }
-    cout << count << endl;
-}
 
 void dfs_art(Graph *g, Vertex *v, unordered_set<string> &res, int &i);
 
@@ -259,16 +276,7 @@ void dfs_art(Graph*g, Vertex*v, unordered_set<string> &l, int &i) {
 
 
 
-void Statistics::numFlightOutAir(Graph* graph,Airport airport){
-    int num = 0;
-    set<Airline> outAirlines;
-    auto it = graph->findVertex(airport);
-    num = it->getFlights().size();
-    for(auto e : it->getFlights()){
-        outAirlines.insert(e.getAirline());
-    }
-    cout<<"Number of flights out of "<<airport.getCode()<<": "<<num<<endl<<"Out of "<<outAirlines.size()<<" different airlines."<<endl;
-}
+
 
 
 void Statistics::numDestinationsAirport( Graph *graph, Airport source, string fOption) {
