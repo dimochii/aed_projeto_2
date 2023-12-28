@@ -7,7 +7,7 @@
 
 class Menu {
     Graph* graph = new Graph();
-    Graph* graphFilter;
+    Graph* graphAtual = graph;
     HashTable* hashTable = new HashTable();
 
 public:

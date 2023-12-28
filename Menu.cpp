@@ -2,6 +2,8 @@
 #include <iostream>
 #include <iomanip>
 #include "Menu.h"
+#include "Statistics.h"
+
 using namespace std;
 
 Menu::Menu() {}
@@ -71,8 +73,8 @@ void Menu::statisticsNumbers() {
     }
 
     cout << " " << endl;
-    if (option == "1"){}
-    if (option == "2"){}
+    if (option == "1") { Statistics::totalNumberAirports(graphAtual); }
+    if (option == "2") { Statistics::totalNumberFlights(graphAtual); }
     if (option == "3"){}
     if (option == "4"){}
     if (option == "5"){}
