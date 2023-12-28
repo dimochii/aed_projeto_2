@@ -57,4 +57,13 @@ const Airline* HashTable::findAirline (const string& code) {
     return nullptr;
 }
 
+Airline* HashTable::findAirlineByName (const string& name){
+    for(auto a: airlines){
+        auto it = new Airline(a);
+        if(a.getName() == name) return it;
+    }
+    return nullptr;
+}
+
+
 airTab HashTable::getAirlines() const { return airlines; }

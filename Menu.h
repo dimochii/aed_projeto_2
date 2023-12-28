@@ -10,10 +10,15 @@ class Menu {
     Graph* graphAtual = graph;
     HashTable* hashTable = new HashTable();
 
+    bool airlineFilter = false;
+
 public:
     Menu();
     Graph* getGraph();
     HashTable* getHashTable();
+
+    void setAirlineFilter(bool airlineFilter);
+    bool getAirlineFilter();
 
     void openMenu();
     int closeMenu();
@@ -22,6 +27,8 @@ public:
     void statistics();
     void bestFlight();
     void filter();
+
+    void activateFilter();
 
     void statisticsNumbers();
     void statisticsOthers();

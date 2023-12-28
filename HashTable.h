@@ -72,6 +72,7 @@ public:
     HashTable();
     void addAirline (const Airline& airline);
     const Airline* findAirline (const string& code);
+    Airline* findAirlineByName (const string& name);
     airTab getAirlines() const;
 };
 
