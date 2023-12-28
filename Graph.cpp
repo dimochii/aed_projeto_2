@@ -64,8 +64,8 @@ Vertex*  Graph::findVertexCode(const string code) const {
     return nullptr;
 }
 
-Vertex*  Graph::findVertexName(const string name) const {
-    for (auto vertex : vertexSet)
+Vertex* Graph::findVertexName(const string name) const {
+    for (Vertex* vertex : vertexSet)
         if (vertex->airport.getName() == name)
             return vertex;
     return nullptr;

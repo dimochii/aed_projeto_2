@@ -8,14 +8,13 @@
 
 int main() {
     Menu menu = Menu();
-
     Graph* graph = menu.getGraph();
     HashTable* hashTable = menu.getHashTable();
 
-    //menu.openMenu();
     Script::infoCollection(graph, hashTable);
+    menu.openMenu();
 
+    //cout << graph->findVertexName("Charles De Gaulle")->getAirport().getCode();
 
-    Statistics::topKAirTraffic(graph,1);
     return 0;
 }

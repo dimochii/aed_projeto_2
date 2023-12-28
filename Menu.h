@@ -17,17 +17,27 @@ public:
 
     void openMenu();
     int closeMenu();
-
     void initialOptions();
+
     void statistics();
     void bestFlight();
     void filter();
 
     void statisticsNumbers();
+    void statistics4();
+    string askMode();
+
     void statisticsOthers();
 
-    Airport* chooseAirportCode();
-    Airport* chooseAirportName();
+    Airport askAirport();
+    Airport askAirportCode();
+    Airport askAirportName();
+
+    Airline askAirline();
+    Airline askAirlineCode();
+    Airline askAirlineName();
+
+    void askContinue();
 };
 
 
