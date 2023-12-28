@@ -3,8 +3,6 @@
 #include <sstream>
 #include <iostream>
 #include "Script.h"
-#include "Airport.h"
-#include "HashTable.h"
 
 using namespace std;
 
@@ -69,8 +67,8 @@ void Script::infoCollection(Graph* graph, HashTable* hashTable) {
             getline(iss, code);
 
             const Airline* airline = hashTable->findAirline(code);
-            Vertex* source = graph->findVertexAirport(sourc);
-            Vertex* destination = graph->findVertexAirport(dest);
+            Vertex* source = graph->findVertexCode(sourc);
+            Vertex* destination = graph->findVertexCode(dest);
             graph->addEdge(source, destination, airline);
         }
     }

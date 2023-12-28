@@ -4,6 +4,7 @@
 #include "HashTable.h"
 #include "Menu.h"
 #include "Statistics.h"
+#include "Filter.h"
 
 int main() {
     Menu menu = Menu();
@@ -14,5 +15,7 @@ int main() {
     //menu.openMenu();
     Script::infoCollection(graph, hashTable);
 
+
+    Statistics::topKAirTraffic(graph,1);
     return 0;
 }

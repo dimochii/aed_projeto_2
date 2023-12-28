@@ -308,13 +308,15 @@ struct CompareVertices {
     }
 };
 
-void Statistics::topKAirTraffic(Graph *graph, int k){   // antes de chamar mos esta funçao confimar se o k <= 0 pq isso nao existe
+void Statistics::topKAirTraffic(Graph *graph, int k) {   // antes de chamar mos esta funçao confimar se o k <= 0 pq isso nao existe
     std::priority_queue<Vertex*, std::vector<Vertex*>, CompareVertices> airportPriorityQueue;
-    Vertex* vSource = graph->getVertexSet()[0];
+    Vertex* vSource;
 
         queue<Vertex *> vQueue;
-        for (auto vertex : graph->getVertexSet())
+        for (auto vertex : graph->getVertexSet()) {
             vertex->setVisited(false);
+            vSource = vertex;
+        }
 
         vQueue.push(vSource);
         vSource->setVisited(true);

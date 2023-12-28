@@ -4,8 +4,29 @@
 
 #include <string>
 #include <unordered_set>
-
 using namespace std;
+
+
+class Airport {
+    string code;
+    string name;
+    string city;
+    string country;
+    float latitude;
+    float longitude;
+
+public:
+    Airport(string code);
+    Airport(string code, string name, string city, string country, float latitude, float longitude);
+    string getCode() const;
+    string getName() const;
+    string getCity() const;
+    string getCountry() const;
+    float getLatitude() const;
+    float getLongitude() const;
+    bool operator==(const Airport& other) const;
+};
+
 
 class Airline {
     string code;
@@ -15,10 +36,13 @@ class Airline {
 
 public:
     Airline();
-    Airline(string code_, string name_, string callsign_, string country_);
+    Airline(string code);
+    Airline(string code, string name, string callsign, string country);
     string getCode() const;
     string getName() const;
-    bool operator < (const Airline& airline) const;
+    string getCallsign() const;
+    string getCountry() const;
+    bool operator<(const Airline& airline) const;
 };
 
 
@@ -39,7 +63,6 @@ struct airHash
     }
 };
 
-
 typedef unordered_set<Airline, airHash, airHash> airTab;
 
 class HashTable {
@@ -51,5 +74,6 @@ public:
     const Airline* findAirline (const string& code);
     airTab getAirlines() const;
 };
+
 
 #endif //AIRPORTSPROJECT_HASHTABLE_H

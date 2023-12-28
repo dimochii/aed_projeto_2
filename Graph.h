@@ -2,13 +2,12 @@
 #define AIRPORTSPROJECT_GRAPH_H
 
 
+#include <algorithm>
 #include <cstddef>
 #include <vector>
 #include <queue>
 #include <stack>
 #include <list>
-#include <algorithm>
-#include "Airport.h"
 #include "HashTable.h"
 
 using namespace std;
@@ -27,31 +26,33 @@ class Vertex {
     int low;
 
     void addEdge(Vertex *dest, const Airline *airline);
-    bool removeEdgeTo(Vertex *dest);
 
 public:
     Vertex(Airport airport);
+
     void setVisited(bool cond);
     bool isVisited() const;
     void setProcessing(bool cond);
     bool isProcessing() const;
 
+    void setNum(int num);
+    int getNum() const;
+    void setLow(int low);
+    int getLow() const;
+
     const Airport &getAirport() const;
     const vector<Edge> &getFlights() const;
     int getNumberFlights() const;
-    int getNum() const;
-    void setNum(int num);
-    int getLow() const;
-    void setLow(int low);
-    bool operator <(const Vertex& other) const;
+
+    bool operator<(const Vertex& other) const;
 
     friend class Graph;
 };
 
 
 class Edge {
-    Vertex * destination;
     const Airline * airline;
+    Vertex * destination;
 
 public:
     Edge(Vertex * destination, const Airline * airline);
@@ -64,17 +65,36 @@ public:
 };
 
 
+
+struct vertexHash
+{
+    // Hash function
+    int operator() (Vertex* vertex) const {
+        string str = vertex->getAirport().getCode();
+        int v = 0;
+        for (unsigned int i = 0; i < str.size(); i++)
+            v = 37*v + str[i];
+        return v;
+    }
+
+    // Equality function
+    bool operator() (Vertex* vert1, Vertex* vert2) const {
+        return vert1->getAirport().getCode() == vert2->getAirport().getCode();
+    }
+};
+
+typedef unordered_set<Vertex*, vertexHash, vertexHash> vertexTab;
+
 class Graph {
-    vector<Vertex*> vertexSet;
+    vertexTab vertexSet;
 
 public:
-    Vertex *findVertex(const Airport &airport) const;
-    Vertex *findVertexAirport(const string code_) const;
+    Vertex* findVertex(const Airport &airport) const;
+    Vertex* findVertexCode(const string code) const;
+    Vertex* findVertexName(const string name) const;
     bool addVertex(const Airport & airport);
-    bool removeVertex(const Airport & airport);
     bool addEdge(Vertex *sourc, Vertex* dest, const Airline* airline);
-    bool removeEdge(Vertex* sourc, Vertex* dest);
-    vector<Vertex *> getVertexSet() const;
+    vertexTab getVertexSet() const;
     int getNumberVertex() const;
 };
 #endif //AIRPORTSPROJECT_GRAPH_H
