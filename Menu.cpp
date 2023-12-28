@@ -79,22 +79,17 @@ void Menu::statisticsNumbers() {
     cout << " " << endl;
     if (option == "1") { Statistics::totalNumberAirports(graphAtual); askContinue(); }
     if (option == "2") { Statistics::totalNumberFlights(graphAtual); askContinue(); }
-    if (option == "3") {
-        Airport airport = askAirport(); Statistics::numFlightOutAir(graphAtual, airport); askContinue(); }
-    if (option == "4") {
-        }
-    if (option == "5") {}
-    if (option == "6") { }
-        //Airport airport = askAirport(); string mode = askMode(); Statistics::numDestinationsAirport(graphAtual, airport, mode); askContinue(); }
-    if (option == "7") {}
-        //Airport airport = askAirport(); int x = askNumber(); Statistics::numDestinationsAirport(graphAtual, airport, x); askContinue(); }
+    if (option == "3") { Airport airport = askAirport(); Statistics::numFlightOutAir(graphAtual, airport); askContinue(); }
+    if (option == "4") { statistics4(); }
+    if (option == "5") { statistics5(); }
+    if (option == "6") { Airport airport = askAirport(); string mode = askMode(); Statistics::numDestinationsAirport(graphAtual, airport, mode); askContinue(); }
+    if (option == "7") { Airport airport = askAirport(); string mode = askMode(); int x = askX(); Statistics::numberReachable(graphAtual, airport, x, mode); askContinue(); }
     if (option == "8") { statistics(); }
 }
 
-/*
 void Menu::statistics4() {
-    cout << "How do you wish to search for the airport?" << endl;
-    cout << "1.By the airport code\n" << "2.By the airport name\n";
+    cout << "Per what?" << endl;
+    cout << "1.Per city\n" << "2.Per airline\n";
     cout << "Option: ";
     string option; cin >> option;
 
@@ -104,34 +99,69 @@ void Menu::statistics4() {
     }
 
     cout << " " << endl;
-    if (option == "1"){ return " "; }
-    if (option == "2"){ return " "; }
+    if (option == "1"){ string city = askCity(); Statistics::flightsPerCity(graphAtual, city); askContinue();}
+    if (option == "2"){ Airline airline = askAirline(); Statistics::flightsPerAirline(graphAtual, airline); askContinue();}
 }
- */
 
+void Menu::statistics5() {
+    cout << "1.That a given airport flies to\n" << "2.That a given city flies to\n";
+    cout << "Option: ";
+    string option; cin >> option;
+
+    while (!(option == "1" || option == "2")) {
+        cout << "Invalid input. Option: ";
+        cin >> option;
+    }
+
+    cout << " " << endl;
+    if (option == "1") { Airport airport = askAirport(); Statistics::countriesPerAirport(graphAtual, airport); askContinue(); }
+    if (option == "2") { string city = askCity(); Statistics::countriesPerCity(graphAtual, city); askContinue(); }
+}
 
 string Menu::askMode() {
-    cout << "How do you wish to search for the airport?" << endl;
-    cout << "1.By the airport code\n" << "2.By the airport name\n";
+    cout << "Which destinations?" << endl;
+    cout << "1.Airports\n" << "2.Cities\n" << "3.Countries\n";
     cout << "Option: ";
     string option; cin >> option;
 
-    while (!(option == "1" || option == "2")) {
+    while (!(option == "1" || option == "2" || option == "3")) {
         cout << "Invalid input. Option: ";
         cin >> option;
     }
 
     cout << " " << endl;
-    if (option == "1"){ return " "; }
-    if (option == "2"){ return " "; }
+    if (option == "1") { return "airport"; }
+    if (option == "2") { return "city"; }
+    if (option == "3") { return "country"; }
 }
+
+bool isInteger(const std::string& s) {
+    std::istringstream iss(s);
+    int num;
+    iss >> num;
+    return iss.eof() && !iss.fail();
+}
+
+int Menu::askX() {
+    cout << "Number of maximum stops: ";
+    string n; cin >> n;
+
+    while (!isInteger(n)) {
+        cout << "Invalid, try again. Number of maximum stops: ";
+        cin >> n;
+    }
+
+    cout << " " << endl;
+    return stoi(n);
+}
+
 
 void Menu::statisticsOthers() {
     cout << "What do you want to see?" << endl;
     cout << "1.Flight trip(s) with the greatest number of stops\n"
-            << "2.Top-k airport with the greatest number of flights (air traffic capacity)\n"
-            << "3.Airports that are essential to the network’s circulation capability\n"
-            << "4.Go back\n";
+         << "2.Top-k airport with the greatest number of flights (air traffic capacity)\n"
+         << "3.Airports that are essential to the networks circulation capability\n"
+         << "4.Go back\n";
     cout << "Option: ";
     string option; cin >> option;
 
@@ -141,15 +171,32 @@ void Menu::statisticsOthers() {
     }
 
     cout << " " << endl;
-    if (option == "1"){}
-    if (option == "2"){}
-    if (option == "3"){}
-    if (option == "4"){initialOptions();}
+    if (option == "1"){ Statistics::maxTrip(graphAtual); askContinue(); }
+    if (option == "2"){ int k = askK(); Statistics::topKAirTraffic(graphAtual,k-1); askContinue(); }
+    if (option == "3"){ Statistics::airport_art(graphAtual); askContinue(); }
+    if (option == "4"){ initialOptions(); }
+    cout << " " << endl;
 }
+
+int Menu::askK(){
+    cout << "By what k-airport do you wish to search for?" << endl;
+    cout << "Number: ";
+    string option; cin >> option;
+
+    while (!isInteger(option) || (stoi(option) <= 0)) {
+        cout << "Invalid input. Option: ";
+        cin >> option;
+    }
+
+    cout << " " << endl;
+    return stoi(option);
+}
+
 
 void Menu::bestFlight() {
 // MARTA
 }
+
 
 void Menu::filter() {
     cout << "Filter search by airlines. ";
@@ -187,7 +234,7 @@ void Menu::activateFilter() {
         }
     }
     auto airlineCodes = Filter::airlineFilter(names,hashTable);
-    graphAtual = Filter::airlineFilterGraph(airlineCodes,graphAtual,hashTable);
+    graphAtual = Filter::airlineFilterGraph(airlineCodes,graph,hashTable);
     cout << " " << endl;
     filter();
 }
@@ -282,6 +329,11 @@ Airline Menu::askAirlineName() {
     }
     cout << " " << endl;
     return *itName;
+}
+
+
+string Menu::askCity() {
+    return " ";
 }
 
 

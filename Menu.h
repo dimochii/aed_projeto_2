@@ -24,16 +24,19 @@ public:
 
     void statistics();
 
+    void statisticsNumbers();
+    void statistics4();
+    void statistics5();
+    string askMode();
+    int askX();
+
+    void statisticsOthers();
+    int askK();
+
     void bestFlight();
 
     void filter();
     void activateFilter();
-
-    void statisticsNumbers();
-    void statistics4();
-    string askMode();
-
-    void statisticsOthers();
 
     Airport askAirport();
     Airport askAirportCode();
@@ -42,6 +45,8 @@ public:
     Airline askAirline();
     Airline askAirlineCode();
     Airline askAirlineName();
+
+    string askCity();
 
     void askContinue();
 };

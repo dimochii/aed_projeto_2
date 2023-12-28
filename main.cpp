@@ -14,7 +14,5 @@ int main() {
     Script::infoCollection(graph, hashTable);
     menu.openMenu();
 
-    //cout << graph->findVertexName("Charles De Gaulle")->getAirport().getCode();
-
     return 0;
 }

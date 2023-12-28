@@ -16,23 +16,23 @@ public:
     static void flightsPerCity(Graph* g, string city);
     static void flightsPerAirline(Graph* g, Airline airline);
 
-    static void countriesPerAirport(Graph* g, string airportCode);
     static void countriesPerCity(Graph* g, string city);
+    static void countriesPerAirport(Graph* g, Airport airport);
+
+    static void numDestAirportVisit(Vertex* v, set<string> & res, string & fOption);
+    static void numDestinationsAirport( Graph *graph, Airport source, string fOption);
 
     static vector<Vertex *> reachableDestinations(Graph* graph, Airport source, int num);
-    static void numberReachableAirports (Graph* graph, Airport source, int num);
-    static void numberReachableCities (Graph* graph, Airport source, int num);
-    static void numberReachableCountries (Graph* graph, Airport source, int num);
+    static void numberReachable(Graph* graph, Airport source, int num, string mode);
 
-    static void maxTrip (Graph* graph);
+
     static void maxTripVertex(Graph* graph, Vertex* vertex, vector<pair<Airport,Airport>>& pairsMax, int& numMax);
+    static void maxTrip (Graph* graph);
 
-    static void airport_art(Graph* g);
-
-    static void numDestinationsAirport( Graph *graph, Airport source, string fOption);
-    static void numDestAirportVisit(Vertex* v, set<string> & res, string & fOption);
     static void topKAirTraffic(Graph *graph,int k);
 
+    static void dfs_art(Graph *g, Vertex *v, unordered_set<string> &res, int &i);
+    static void airport_art(Graph* g);
 };
 
 
