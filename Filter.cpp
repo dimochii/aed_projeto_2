@@ -164,7 +164,7 @@ vector<vector<pair<Airline, Vertex*>>> Filter::bestOptionMix(Graph* g, string so
     vector<Vertex*> AirportS;
     vector<Vertex*> AirportD;
     if(isupper(source.back())){
-        Vertex* vSource = g->findVertexAirport(source);
+        Vertex* vSource = g->findVertexCode(source);
         AirportS.push_back(vSource);
     }
     else{
@@ -176,7 +176,7 @@ vector<vector<pair<Airline, Vertex*>>> Filter::bestOptionMix(Graph* g, string so
     }
 
     if(isupper(dest.back())){
-        Vertex* vDest = g->findVertexAirport(dest);
+        Vertex* vDest = g->findVertexCode(dest);
         AirportD.push_back(vDest);
     }
     else{
@@ -247,11 +247,13 @@ HashTable* Filter::airlineFilterHash(vector<string> airlineCodes, HashTable* has
 Graph* Filter::airlineFilterGraph( vector<string> airlineCodes,Graph* graph, HashTable* hashTable){
     Graph* graph1 = new Graph();
 
-    Vertex* vSource = graph->getVertexSet()[0];
+    Vertex* vSource;
 
     queue<Vertex *> vQueue;
-    for (auto vertex : graph->getVertexSet())
+    for (auto vertex : graph->getVertexSet()) {
         vertex->setVisited(false);
+        vSource = vertex;
+    }
 
     vQueue.push(vSource);
     vSource->setVisited(true);

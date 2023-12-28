@@ -8,19 +8,14 @@ void Vertex::addEdge(Vertex *dest, const Airline* airline) {
     flights.push_back(Edge(dest, airline));
 }
 
-bool Vertex::removeEdgeTo(Vertex *dest) {
-    for (auto it = flights.begin(); it != flights.end(); it++) {
-        if (it->destination == dest) {
-            flights.erase(it);
-            return true;
-        }
-    }
-    return false;
-}
-
 void Vertex::setVisited(bool cond) { visited = cond; }
 
 bool Vertex::isVisited() const { return visited; }
+
+void Vertex::setProcessing(bool cond) {processing = cond; }
+
+bool Vertex::isProcessing () const { return processing; }
+
 
 const Airport &Vertex::getAirport() const { return airport; }
 
@@ -40,6 +35,7 @@ int Vertex::getLow() const { return low;}
 void Vertex::setLow(int low) { this->low=low;}
 
 
+
 //EDGE
 Edge::Edge(Vertex* destination_, const Airline* airline_):
             destination(destination_), airline(airline_) {}
@@ -55,40 +51,32 @@ Vertex * Edge::getDestination() const {
 
 //GRAPH
 Vertex *Graph::findVertex(const Airport &airport) const {
-    for (auto vertex : vertexSet)
-        if (vertex->airport == airport)
-            return vertex;
-    return NULL;
+    Vertex *vertex = new Vertex(airport);
+    auto it = vertexSet.find(vertex);
+    if (it != vertexSet.end()) return *it;
+    return nullptr;
 }
 
-Vertex*  Graph::findVertexAirport(const string code_) const {
-    for (auto v : vertexSet)
-        if (v->airport.getCode() == code_)
-            return v;
-    return NULL;
+Vertex*  Graph::findVertexCode(const string code) const {
+    Vertex *vertex = new Vertex(Airport(code));
+    auto it = vertexSet.find(vertex);
+    if (it != vertexSet.end()) return *it;
+    return nullptr;
+}
+
+Vertex*  Graph::findVertexName(const string name) const {
+    for (auto vertex : vertexSet)
+        if (vertex->airport.getName() == name)
+            return vertex;
+    return nullptr;
 }
 
 bool Graph::addVertex(const Airport &airport) {
-    if (findVertex(airport) != NULL)
+    if (findVertex(airport) != nullptr)
         return false;
 
-    vertexSet.push_back(new Vertex(airport));
+    vertexSet.insert(new Vertex(airport));
     return true;
-}
-
-bool Graph::removeVertex(const Airport &airport) {
-    for (auto it = vertexSet.begin(); it != vertexSet.end(); it++)
-        if ((*it)->airport  == airport) {
-            Vertex* vertex = *it;
-            vertexSet.erase(it);
-
-            for (auto vertex2 : vertexSet)
-                vertex2->removeEdgeTo(vertex);
-            delete vertex;
-
-            return true;
-        }
-    return false;
 }
 
 bool Graph::addEdge(Vertex *sourc, Vertex* dest, const Airline* airline) {
@@ -96,14 +84,6 @@ bool Graph::addEdge(Vertex *sourc, Vertex* dest, const Airline* airline) {
     return true;
 }
 
-bool Graph::removeEdge(Vertex* sourc, Vertex* dest) {
-    return sourc->removeEdgeTo(dest);
-}
+vertexTab Graph::getVertexSet() const { return vertexSet; }
 
-vector<Vertex *> Graph::getVertexSet() const {
-    return vertexSet;
-}
-
-int Graph::getNumberVertex() const {
-    return vertexSet.size();
-}
+int Graph::getNumberVertex() const { return vertexSet.size(); }

@@ -2,13 +2,12 @@
 #define AIRPORTSPROJECT_GRAPH_H
 
 
+#include <algorithm>
 #include <cstddef>
 #include <vector>
 #include <queue>
 #include <stack>
 #include <list>
-#include <algorithm>
-#include "Airport.h"
 #include "HashTable.h"
 
 using namespace std;
@@ -27,96 +26,75 @@ class Vertex {
     int low;
 
     void addEdge(Vertex *dest, const Airline *airline);
-    bool removeEdgeTo(Vertex *dest);
 
 public:
     Vertex(Airport airport);
+
     void setVisited(bool cond);
     bool isVisited() const;
+    void setProcessing(bool cond);
+    bool isProcessing() const;
+
+    void setNum(int num);
+    int getNum() const;
+    void setLow(int low);
+    int getLow() const;
 
     const Airport &getAirport() const;
     const vector<Edge> &getFlights() const;
     int getNumberFlights() const;
-    int getNum() const;
-    void setNum(int num);
-    int getLow() const;
-    void setLow(int low);
-    bool operator <(const Vertex& other) const;
-    /*
-    Airport getInfo() const;
-    void setInfo(Airport in);
-    void setVisited(bool v);
-    bool isProcessing() const;
-    void setProcessing(bool p);
-    const vector<Edge> &getAdj() const;
-    void setAdj(const vector<Edge> &adj);
 
-    int getIndegree() const;
-
-    void setIndegree(int indegree);
-
-    int getNum() const;
-
-    void setNum(int num);
-
-    int getLow() const;
-
-    void setLow(int low);
-     */
+    bool operator<(const Vertex& other) const;
 
     friend class Graph;
 };
 
 
 class Edge {
-    Vertex * destination;
     const Airline * airline;
+    Vertex * destination;
 
 public:
     Edge(Vertex * destination, const Airline * airline);
-    /*
-    Vertex<Airport> *getDest() const;
-    void setDest(Vertex<Airport> *dest);
-    double getWeight() const;
-    void setWeight(double weight);
-     */
-    friend class Graph;
-    friend class Vertex;
 
     Airline getAirline() const;
     Vertex* getDestination() const;
 
+    friend class Graph;
+    friend class Vertex;
 };
 
 
+
+struct vertexHash
+{
+    // Hash function
+    int operator() (Vertex* vertex) const {
+        string str = vertex->getAirport().getCode();
+        int v = 0;
+        for (unsigned int i = 0; i < str.size(); i++)
+            v = 37*v + str[i];
+        return v;
+    }
+
+    // Equality function
+    bool operator() (Vertex* vert1, Vertex* vert2) const {
+        return vert1->getAirport().getCode() == vert2->getAirport().getCode();
+    }
+};
+
+typedef unordered_set<Vertex*, vertexHash, vertexHash> vertexTab;
+
 class Graph {
-    vector<Vertex*> vertexSet;
-
-    /*
-    int index;
-    stack<Vertex<Airport>> _stack_;           // auxiliary field
-    list<list<Airport>> _list_sccs_;        // auxiliary field
-
-    void dfsVisit(Vertex<Airpot> *v,  vector<Airport> & res) const;
-    void dfsVisitS(Vertex<Airport> *v, stack<Airport> &s) const;
-    bool dfsIsDAG(Vertex<Airport> *v) const;
-     */
+    vertexTab vertexSet;
 
 public:
-    Vertex *findVertex(const Airport &airport) const;
-    Vertex *findVertexAirport(const string code_) const;
+    Vertex* findVertex(const Airport &airport) const;
+    Vertex* findVertexCode(const string code) const;
+    Vertex* findVertexName(const string name) const;
     bool addVertex(const Airport & airport);
-    bool removeVertex(const Airport & airport);
     bool addEdge(Vertex *sourc, Vertex* dest, const Airline* airline);
-    bool removeEdge(Vertex* sourc, Vertex* dest);
-    vector<Vertex *> getVertexSet() const;
+    vertexTab getVertexSet() const;
     int getNumberVertex() const;
-    /*
-    vector<Airport> dfs() const;
-    vector<Airport> dfs(const Airport & source) const;
-    vector<Airport> bfs(const Airport &source) const;
-    vector<Airport> topsort() const;
-    bool isDAG() const;
-     */
 };
 #endif //AIRPORTSPROJECT_GRAPH_H
