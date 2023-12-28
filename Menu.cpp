@@ -3,6 +3,7 @@
 #include <iomanip>
 #include "Menu.h"
 #include "Statistics.h"
+#include "Filter.h"
 
 using namespace std;
 
@@ -10,6 +11,9 @@ Menu::Menu() {}
 
 Graph *Menu::getGraph() { return graph; }
 HashTable *Menu::getHashTable() { return hashTable; }
+
+void Menu::setAirlineFilter(bool airlineFilter) {this->airlineFilter = airlineFilter;}
+bool Menu::getAirlineFilter() {return airlineFilter;}
 
 
 void Menu::openMenu() {
@@ -87,7 +91,7 @@ void Menu::statisticsNumbers() {
     if (option == "8") { statistics(); }
 }
 
-
+/*
 void Menu::statistics4() {
     cout << "How do you wish to search for the airport?" << endl;
     cout << "1.By the airport code\n" << "2.By the airport name\n";
@@ -103,6 +107,7 @@ void Menu::statistics4() {
     if (option == "1"){ return " "; }
     if (option == "2"){ return " "; }
 }
+ */
 
 
 string Menu::askMode() {
@@ -147,7 +152,44 @@ void Menu::bestFlight() {
 }
 
 void Menu::filter() {
-// DIANA
+    cout << "Filter search by airlines. ";
+    if(getAirlineFilter()) cout<<"(ON) \n"; else cout<<"(OFF) \n";
+    if(getAirlineFilter()) cout << "1.Change filter\n"; else cout << "1.Activate filter\n";
+    cout << "2.Deactivate filter\n"
+         << "3.Go back\n";
+
+    cout << "Option: ";
+    string option; cin >> option;
+
+    while (!(option == "1" || option == "2"|| option == "3" )) {
+        cout << "Invalid input. Option: ";
+        cin >> option;
+    }
+    cout << " " << endl;
+    if (option == "1"){this->setAirlineFilter(true); activateFilter();}
+    if (option == "2"){this->setAirlineFilter(false); graphAtual = graph; filter();}
+    if (option == "3"){initialOptions();}
+}
+
+void Menu::activateFilter() {
+    cout << "Which airlines do you wish to travel with? "<<"(ex: Ryanair,TAP Air Portugal)\n";
+    cout << "Airlines: ";
+    string names; getline(cin,names);
+    getline(cin, names);
+    istringstream iss(names);
+    string airline;
+    while (getline(iss, airline, ',')) {
+        while (hashTable->findAirlineByName(airline) == nullptr) {
+            cout << "Invalid input. "<< "Airlines: ";
+            getline(cin, names);
+            istringstream newIss(names);
+            getline(newIss, airline, ',');
+        }
+    }
+    auto airlineCodes = Filter::airlineFilter(names,hashTable);
+    graphAtual = Filter::airlineFilterGraph(airlineCodes,graphAtual,hashTable);
+    cout << " " << endl;
+    filter();
 }
 
 
