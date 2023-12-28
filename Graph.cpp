@@ -22,6 +22,11 @@ void Vertex::setVisited(bool cond) { visited = cond; }
 
 bool Vertex::isVisited() const { return visited; }
 
+void Vertex::setProcessing(bool cond) {processing = cond; }
+
+bool Vertex::isProcessing () const { return processing; }
+
+
 const Airport &Vertex::getAirport() const { return airport; }
 
 const vector<Edge> &Vertex::getFlights() const { return flights; }
@@ -38,6 +43,7 @@ void Vertex::setNum(int num) { this->num=num;}
 int Vertex::getLow() const { return low;}
 
 void Vertex::setLow(int low) { this->low=low;}
+
 
 
 //EDGE

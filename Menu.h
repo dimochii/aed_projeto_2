@@ -22,6 +22,12 @@ public:
     void statistics();
     void bestFlight();
     void filter();
+
+    void statisticsNumbers();
+    void statisticsOthers();
+
+    Airport* chooseAirportCode();
+    Airport* chooseAirportName();
 };
 
 

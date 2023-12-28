@@ -207,9 +207,9 @@ void dfs_art(Graph *g, Vertex *v, unordered_set<string> &res, int &i);
 void Statistics::airport_art(Graph *g) {
     unordered_set<string> art;
     int i=1;
-    stack<int> s;
     for(auto vertex: g->getVertexSet()){
         vertex->setNum(-1);
+        vertex->setProcessing(false);
     }
 
     for(auto vertex: g->getVertexSet()){
@@ -217,20 +217,24 @@ void Statistics::airport_art(Graph *g) {
             dfs_art(g, vertex, art, i);
         }
     }
+    int count = 0;
     for(string airport: art){
-        cout << airport << endl;
+        count++;
+        //cout << airport << endl;
     }
+    cout << count << endl;
 }
 
 void dfs_art(Graph*g, Vertex*v, unordered_set<string> &l, int &i) {
     v->setNum(i);
     v->setLow(i);
+    v->setProcessing(true);
     i++;
     int trees=0;
 
     for(auto edge: v->getFlights()){
         auto destV=edge.getDestination();
-        if(destV->getNum()==-1){
+        if (destV->getNum()==-1){
             trees++;
             dfs_art(g, destV, l, i);
             v->setLow(min(destV->getLow(), v->getLow()));
@@ -238,10 +242,12 @@ void dfs_art(Graph*g, Vertex*v, unordered_set<string> &l, int &i) {
                 l.insert(v->getAirport().getCode());
             }
         }
-        else {
+        else if (v->isProcessing()) {
             v->setLow(min(destV->getNum(), v->getLow()));
         }
     }
+
+    v->setProcessing(false);
 }
 
 
