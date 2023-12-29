@@ -150,7 +150,6 @@ bool isDouble(const std::string &s) {
     }
 }
 
-
 int Menu::askX() {
     cout << "Number of maximum stops: ";
     string n; cin >> n;
@@ -183,7 +182,7 @@ void Menu::statisticsOthers() {
     if (option == "1"){ Statistics::maxTrip(graphAtual); askContinue(); }
     if (option == "2"){ int k = askK(); Statistics::topKAirTraffic(graphAtual,k-1); askContinue(); }
     if (option == "3"){ Statistics::airport_art(graphAtual); askContinue(); }
-    if (option == "4"){ initialOptions(); }
+    if (option == "4"){ statistics(); }
     cout << " " << endl;
 }
 
@@ -200,6 +199,7 @@ int Menu::askK(){
     cout << " " << endl;
     return stoi(option);
 }
+
 
 void Menu::filter() {
     cout << "Filter search by airlines. ";
@@ -336,10 +336,22 @@ Airline Menu::askAirlineName() {
     return *itName;
 }
 
-
 string Menu::askCity() {
-    return " ";
+    bool first = true;
+    string city; getline(cin, city);
+
+    bool itCity = cityTable->find(city);
+    while (!itCity) {
+        if (first) { cout << "City: "; first = false; }
+        else cout << "Invalid, try again. City: ";
+        getline(cin, city);
+        itCity = cityTable->find(city);
+    }
+
+    cout << " " << endl;
+    return city;
 }
+
 
 void Menu::sourceLocation() {
     cout << "How do you want to specify your source location?" << endl;
