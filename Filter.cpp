@@ -75,7 +75,8 @@ void Filter::bestOptionNoFilters(Graph* g, vector<Airport> sourceV, vector<Airpo
     int i=0;
     for(auto vetor: bestOptions){
         bool first=true;
-        string last;
+        string lastA;
+        string lastC;
         i++;
         cout<<"Option "<<i<<":"<<endl;
         for(auto p: vetor){
@@ -83,9 +84,10 @@ void Filter::bestOptionNoFilters(Graph* g, vector<Airport> sourceV, vector<Airpo
                 first=false;
             }
             else{
-                cout<<last <<' '<< p.first.getCode()<<' '<<p.second->getAirport().getCode()<<endl;
+                cout<<lastA << "["<< lastC<<"]" " ----->" <<' '<<p.second->getAirport().getCode() << "["<<p.second->getAirport().getCity()<<"] "<< "Airline: "<< p.first.getCode()<<endl;
             }
-            last=p.second->getAirport().getCode();
+            lastA=p.second->getAirport().getCode();
+            lastC=p.second->getAirport().getCity();
         }
         cout<<endl;
     }
@@ -192,7 +194,8 @@ void Filter::minAirlines(Graph* g, vector<Airport> sourceV, vector<Airport> dest
     int i=0;
     for(auto vetor: filteredOptions){
         bool first=true;
-        string last;
+        string lastA;
+        string lastC;
         i++;
         cout<<"Option "<<i<<":"<<endl;
         for(auto p: vetor){
@@ -200,9 +203,10 @@ void Filter::minAirlines(Graph* g, vector<Airport> sourceV, vector<Airport> dest
                 first=false;
             }
             else{
-                cout<<last <<' '<< p.first.getCode()<<' '<<p.second->getAirport().getCode()<<endl;
+                cout<<lastA << "["<< lastC<<"]" " ----->" <<' '<<p.second->getAirport().getCode() << "["<<p.second->getAirport().getCity()<<"] "<< "Airline: "<< p.first.getCode()<<endl;
             }
-            last=p.second->getAirport().getCode();
+            lastA=p.second->getAirport().getCode();
+            lastC=p.second->getAirport().getCity();
         }
         cout<<endl;
     }
