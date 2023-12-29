@@ -16,6 +16,9 @@ void Vertex::setProcessing(bool cond) {processing = cond; }
 
 bool Vertex::isProcessing () const { return processing; }
 
+int Vertex::getIndegree () const { return indegree; }
+
+void Vertex::setIndegree (int indegree) { this->indegree = indegree; }
 
 const Airport &Vertex::getAirport() const { return airport; }
 
