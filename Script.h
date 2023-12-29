@@ -4,11 +4,11 @@
 
 
 #include "Graph.h"
-#include "HashTable.h"
+#include "AirTable.h"
 
 class Script {
 public:
-    static void infoCollection(Graph* graph, HashTable* hashTable);
+    static void infoCollection(Graph* graph, AirTable* hashTable, CityTable* cityTable);
 };
 
 

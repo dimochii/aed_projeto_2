@@ -1,17 +1,16 @@
 #include <iostream>
 #include "Script.h"
 #include "Graph.h"
-#include "HashTable.h"
+#include "AirTable.h"
 #include "Menu.h"
-#include "Statistics.h"
-#include "Filter.h"
 
 int main() {
     Menu menu = Menu();
     Graph* graph = menu.getGraph();
-    HashTable* hashTable = menu.getHashTable();
+    AirTable* airTable = menu.getAirTable();
+    CityTable* cityTable = menu.getCityTable();
 
-    Script::infoCollection(graph, hashTable);
+    Script::infoCollection(graph, airTable, cityTable);
     menu.openMenu();
 
     return 0;

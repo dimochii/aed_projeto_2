@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(untitled main.cpp
         Graph.cpp
-        HashTable.cpp
+        AirTable.cpp
         Script.cpp
         Statistics.cpp
         Filter.h

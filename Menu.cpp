@@ -10,9 +10,8 @@ using namespace std;
 Menu::Menu() {}
 
 Graph *Menu::getGraph() { return graph; }
-HashTable *Menu::getHashTable() { return hashTable; }
-
-bool Menu::getAirlineFilter() {return airlineFilter;}
+AirTable *Menu::getAirTable() { return airTable; }
+CityTable *Menu::getCityTable() { return cityTable; }
 
 
 void Menu::openMenu() {
@@ -230,15 +229,15 @@ void Menu::activateFilter() {
     istringstream iss(names);
     string airline;
     while (getline(iss, airline, ',')) {
-        while (hashTable->findAirlineByName(airline) == nullptr) {
+        while (airTable->findAirlineByName(airline) == nullptr) {
             cout << "Invalid input. "<< "Airlines: ";
             getline(cin, names);
             istringstream newIss(names);
             getline(newIss, airline, ',');
         }
     }
-    auto airlineCodes = Filter::airlineFilter(names,hashTable);
-    graphAtual = Filter::airlineFilterGraph(airlineCodes,graph,hashTable);
+    auto airlineCodes = Filter::airlineFilter(names, airTable);
+    graphAtual = Filter::airlineFilterGraph(airlineCodes, graph, airTable);
     cout << " " << endl;
     filter();
 }
@@ -312,11 +311,11 @@ Airline Menu::askAirlineCode() {
     cout << "Airline code: ";
     string code; cin >> code;
 
-    auto itCode = hashTable->findAirline(code);
+    auto itCode = airTable->findAirline(code);
     while (itCode == nullptr) {
         cout << "Invalid, try again. Airline code: ";
         cin >> code;
-        itCode = hashTable->findAirline(code);
+        itCode = airTable->findAirline(code);
     }
     cout << " " << endl;
     return *itCode;
@@ -326,12 +325,12 @@ Airline Menu::askAirlineName() {
     bool first = true;
     string name; getline(cin, name);
 
-    auto itName = hashTable->findAirlineByName(name);
+    auto itName = airTable->findAirlineByName(name);
     while (itName == nullptr) {
         if (first) { cout << "Airline name: "; first = false; }
         else cout << "Invalid, try again. Airline name:  ";
         getline(cin, name);
-        itName = hashTable->findAirlineByName(name);
+        itName = airTable->findAirlineByName(name);
     }
     cout << " " << endl;
     return *itName;

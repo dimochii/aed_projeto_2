@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void Script::infoCollection(Graph* graph, HashTable* hashTable) {
+void Script::infoCollection(Graph* graph, AirTable* hashTable, CityTable* cityTable) {
     ifstream File1("../dataset/airports.csv");
     if (File1.is_open()){
         string line;
@@ -28,6 +28,7 @@ void Script::infoCollection(Graph* graph, HashTable* hashTable) {
 
             Airport airport = Airport(code, name, city, country, latitude, longitude);
             graph->addVertex(airport);
+            cityTable->addCity(city);
         }
     }
     File1.close();
