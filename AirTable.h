@@ -65,16 +65,45 @@ struct airHash
 
 typedef unordered_set<Airline, airHash, airHash> airTab;
 
-class HashTable {
+class AirTable {
     airTab airlines;
 
 public:
-    HashTable();
+    AirTable();
     void addAirline (const Airline& airline);
     const Airline* findAirline (const string& code);
     Airline* findAirlineByName (const string& name);
     airTab getAirlines() const;
 };
 
+
+struct cityHash
+{
+    // Hash function
+    int operator() (const string& city) const {
+        string str = city;
+        int v = 0;
+        for (unsigned int i = 0; i < str.size(); i++)
+            v = 37*v + str[i];
+        return v;
+    }
+
+    // Equality function
+    bool operator() (const string& city1, const string& city2) const {
+        return city1 == city2;
+    }
+};
+
+typedef unordered_set<string, cityHash, cityHash> cityTab;
+
+class CityTable {
+    cityTab cities;
+
+public:
+    CityTable();
+    void addCity (const string& city);
+    const bool find (const string& city);
+    cityTab getCities() const;
+};
 
 #endif //AIRPORTSPROJECT_HASHTABLE_H

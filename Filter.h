@@ -4,12 +4,12 @@
 
 
 #include "Graph.h"
-#include "HashTable.h"
+#include "AirTable.h"
 
 class Filter {
 public:
     static vector<Airport> geographicalLocation(Graph* graph, double lat, double lon);
-    static float harvesineDistance(Graph* graph, double lat1, double lon1, double lat2, double lon2);
+    static float harvesineDistance(double lat1, double lon1, double lat2, double lon2);
     static vector<Airport> AirportCode(Graph *g, string code);
     static vector<Airport> AirportName(Graph *g, string name);
     static vector<Airport> AirportsCity(Graph *g, string city);
@@ -19,10 +19,8 @@ public:
     static void bestOptionNoFilters(Graph *g, vector<Airport> sourceV, vector<Airport> destV);
     static void minAirlines(Graph *g, vector<Airport> sourceV, vector<Airport> destV);
 
-
-    static HashTable* airlineFilterHash(vector<string> airlineCodes,HashTable* hashTable);
-    static Graph* airlineFilterGraph( vector<string> airlineCodes, Graph* Graph, HashTable* hashTable);
-    static vector<string> airlineFilter(string str, HashTable* hashTable);
+    static Graph* airlineFilterGraph(vector<string> airlineCodes, Graph* Graph, AirTable* airTable);
+    static vector<string> airlineFilter(string str, AirTable* airTable);
 };
 
 

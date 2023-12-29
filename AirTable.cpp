@@ -1,5 +1,5 @@
 
-#include "HashTable.h"
+#include "AirTable.h"
 
 // Airport class
 Airport::Airport(string code_): code(code_) {}
@@ -25,7 +25,6 @@ float Airport::getLatitude() const { return latitude; }
 float Airport::getLongitude() const { return longitude; }
 
 
-
 // Airline class
 Airline::Airline() {}
 
@@ -45,19 +44,18 @@ string Airline::getCountry() const { return country;}
 bool Airline::operator<( const Airline& air) const { return code<air.getCode(); }
 
 
+// AirTable class
+AirTable::AirTable() {}
 
-// AirHashTable class
-HashTable::HashTable() {}
+void AirTable::addAirline (const Airline& airline) { airlines.insert(airline); }
 
-void HashTable::addAirline (const Airline& airline) { airlines.insert(airline); }
-
-const Airline* HashTable::findAirline (const string& code) {
+const Airline* AirTable::findAirline (const string& code) {
     auto it = airlines.find(Airline(code));
     if (it != airlines.end()) return &(*it);
     return nullptr;
 }
 
-Airline* HashTable::findAirlineByName (const string& name){
+Airline* AirTable::findAirlineByName (const string& name){
     for (auto a: airlines) {
         auto it = new Airline(a);
         if (a.getName() == name) return it;
@@ -65,4 +63,18 @@ Airline* HashTable::findAirlineByName (const string& name){
     return nullptr;
 }
 
-airTab HashTable::getAirlines() const { return airlines; }
+airTab AirTable::getAirlines() const { return airlines; }
+
+
+// CityTable class
+CityTable::CityTable() {}
+
+void CityTable::addCity(const string &city) { cities.insert(city); }
+
+const bool CityTable::find(const string &city) {
+    auto it = cities.find(city);
+    if (it != cities.end()) return true;
+    return false;
+}
+
+cityTab CityTable::getCities() const { return cities; }

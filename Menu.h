@@ -8,15 +8,15 @@
 class Menu {
     Graph* graph = new Graph();
     Graph* graphAtual = graph;
-    HashTable* hashTable = new HashTable();
+    AirTable* airTable = new AirTable();
+    CityTable* cityTable = new CityTable();
     bool airlineFilter = false;
 
 public:
     Menu();
     Graph* getGraph();
-    HashTable* getHashTable();
-    void setAirlineFilter(bool airlineFilter);
-    bool getAirlineFilter();
+    AirTable* getAirTable();
+    CityTable* getCityTable();
 
     void openMenu();
     int closeMenu();
@@ -50,7 +50,6 @@ public:
     string askCity();
 
     void askContinue();
-
 };
 
 
