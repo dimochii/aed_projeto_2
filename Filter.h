@@ -17,7 +17,7 @@ public:
     static vector<vector<pair<Airline, Vertex*>>> minPathAirports(Graph* g, Vertex* source, Vertex* dest);
     static vector<vector<pair<Airline, Vertex *>>> bestOptionMix(Graph *g, vector<Airport> sourceV, vector<Airport> destV);
     static void bestOptionNoFilters(Graph *g, vector<Airport> sourceV, vector<Airport> destV);
-    void minAirlines(Graph *g, vector<Airport> sourceV, vector<Airport> destV);
+    static void minAirlines(Graph *g, vector<Airport> sourceV, vector<Airport> destV);
 
 
     static HashTable* airlineFilterHash(vector<string> airlineCodes,HashTable* hashTable);

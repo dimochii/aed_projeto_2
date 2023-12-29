@@ -550,9 +550,26 @@ void Menu::destinationLocation(vector<Airport> airportsSource){
         }
     }
     if (option == "5"){sourceLocation();}
+    cout << " " << endl;
+
+    Filter::bestOptionNoFilters(graph, airportsSource, airportsDest);
+    cout << " " << endl;
+    cout << "Do you want to filter your options by minimum number of different airlines?" << endl;
+    cout << "Yes\n" << "No\n" ;
+    cout << "Answer: ";
+    string op; cin >> op;
+
+    while (!(op == "Yes" || op == "No" || op == "yes" || op == "no")) {
+        cout << "Invalid input. Answer: ";
+        cin >> option;
+    }
 
     cout << " " << endl;
-    Filter::bestOptionNoFilters(graph, airportsSource, airportsDest);
+
+    if(op=="Yes" || op=="yes"){
+        Filter::minAirlines(graph, airportsSource, airportsDest);
+    }
+
     askContinue();
 }
 
