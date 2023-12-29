@@ -12,7 +12,6 @@ Menu::Menu() {}
 Graph *Menu::getGraph() { return graph; }
 HashTable *Menu::getHashTable() { return hashTable; }
 
-void Menu::setAirlineFilter(bool airlineFilter) {this->airlineFilter = airlineFilter;}
 bool Menu::getAirlineFilter() {return airlineFilter;}
 
 
@@ -205,8 +204,8 @@ int Menu::askK(){
 
 void Menu::filter() {
     cout << "Filter search by airlines. ";
-    if(getAirlineFilter()) cout<<"(ON) \n"; else cout<<"(OFF) \n";
-    if(getAirlineFilter()) cout << "1.Change filter\n"; else cout << "1.Activate filter\n";
+    if(airlineFilter) cout<<"(ON) \n"; else cout<<"(OFF) \n";
+    if(airlineFilter) cout << "1.Change filter\n"; else cout << "1.Activate filter\n";
     cout << "2.Deactivate filter\n"
          << "3.Go back\n";
 
@@ -218,8 +217,8 @@ void Menu::filter() {
         cin >> option;
     }
     cout << " " << endl;
-    if (option == "1"){this->setAirlineFilter(true); activateFilter();}
-    if (option == "2"){this->setAirlineFilter(false); graphAtual = graph; filter();}
+    if (option == "1"){airlineFilter = true; activateFilter();}
+    if (option == "2"){airlineFilter = false; graphAtual = graph; filter();}
     if (option == "3"){initialOptions();}
 }
 

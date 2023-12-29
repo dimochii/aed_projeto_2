@@ -15,8 +15,6 @@ public:
     Menu();
     Graph* getGraph();
     HashTable* getHashTable();
-    void setAirlineFilter(bool airlineFilter);
-    bool getAirlineFilter();
 
     void openMenu();
     int closeMenu();

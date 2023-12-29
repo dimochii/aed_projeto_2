@@ -256,26 +256,13 @@ Graph* Filter::airlineFilterGraph( vector<string> airlineCodes,Graph* graph, Has
     Vertex* vSource;
 
     queue<Vertex *> vQueue;
-    for (auto vertex : graph->getVertexSet()) {
-        vertex->setVisited(false);
-        vSource = vertex;
-    }
-
-    vQueue.push(vSource);
-    vSource->setVisited(true);
-
-    while (!vQueue.empty()) {
-        Vertex* v = vQueue.front();
-        vQueue.pop();
-
-        for (Edge edge : v->getFlights()) {
-            Vertex* w = edge.getDestination();
-
+    for (auto vertex: graph->getVertexSet()) {
+        for (auto edge: vertex->getFlights()) {
             auto it = find(airlineCodes.begin(),airlineCodes.end(),edge.getAirline().getCode());
             if(it!=airlineCodes.end()){
                 auto air = *it;
                 auto it2 = hashTable->findAirline(air);
-                Airport* source =new Airport(v->getAirport());
+                Airport* source =new Airport(vertex->getAirport());
                 Airport* dest =new Airport(edge.getDestination()->getAirport());
                 graph1->addVertex(*source);graph1->addVertex(*dest);
                 auto vertSource = graph1->findVertex(*source);
@@ -283,12 +270,8 @@ Graph* Filter::airlineFilterGraph( vector<string> airlineCodes,Graph* graph, Has
                 graph1->addEdge(vertSource, vertDest, it2);
             }
 
-            if ( !w->isVisited() ) {
-                vQueue.push(w);
-                w->setVisited(true);
-            }
+
         }
     }
     return graph1;
 }
-
