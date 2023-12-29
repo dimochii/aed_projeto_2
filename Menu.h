@@ -33,7 +33,8 @@ public:
     void statisticsOthers();
     int askK();
 
-    void bestFlight();
+    void destinationLocation(vector<Airport> airportsSource);
+    void sourceLocation();
 
     void filter();
     void activateFilter();
@@ -49,6 +50,7 @@ public:
     string askCity();
 
     void askContinue();
+
 };
 
 
