@@ -133,6 +133,7 @@ string Menu::askMode() {
     if (option == "1") { return "airport"; }
     if (option == "2") { return "city"; }
     if (option == "3") { return "country"; }
+    return " ";
 }
 
 bool isInteger(const std::string& s) {
@@ -258,6 +259,7 @@ Airport Menu::askAirport() {
     cout << " " << endl;
     if (option == "1"){ return askAirportCode(); }
     if (option == "2"){ return askAirportName(); }
+    return Airport("DSM");
 }
 
 Airport Menu::askAirportCode() {
@@ -304,6 +306,7 @@ Airline Menu::askAirline() {
     cout << " " << endl;
     if (option == "1"){ return askAirlineCode(); }
     if (option == "2"){ return askAirlineName(); }
+    return Airline();
 }
 
 Airline Menu::askAirlineCode() {

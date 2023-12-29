@@ -52,11 +52,12 @@ vector<Airport> Filter::AirportsCity(Graph *g, string city){
 vector<Airport> Filter::AirportCode(Graph *g, string code){
     vector<Airport> res;
     for(auto vertex: g->getVertexSet()){
-        if(vertex->getAirport().getCode()==code){
+        if(vertex->getAirport().getCode()==code) {
             res.push_back(vertex->getAirport());
             return res;
         }
     }
+    return res;
 }
 
 vector<Airport> Filter::AirportName(Graph *g, string name){
@@ -67,6 +68,7 @@ vector<Airport> Filter::AirportName(Graph *g, string name){
             return res;
         }
     }
+    return res;
 }
 
 void Filter::bestOptionNoFilters(Graph* g, vector<Airport> sourceV, vector<Airport> destV){
@@ -115,10 +117,8 @@ vector<vector<pair<Airline, Vertex*>>> Filter::minPathAirports(Graph* g, Vertex*
         int d = q.front().second;
         q.pop();
 
-        if(d>min){
+        if(d>min)
             return res;
-        }
-
         else if (vertex.back().second == dest) {
             if (d <= min) {
                 min = d;
@@ -143,6 +143,7 @@ vector<vector<pair<Airline, Vertex*>>> Filter::minPathAirports(Graph* g, Vertex*
             }
         }
     }
+    return res;
 }
 
 vector<vector<pair<Airline, Vertex*>>> Filter::bestOptionMix(Graph* g, vector<Airport> sourceV, vector<Airport> destV){
