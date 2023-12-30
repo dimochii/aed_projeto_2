@@ -20,6 +20,8 @@ class Vertex {
     Airport airport;
     vector<Edge> flights;
 
+    int indegree = 0;
+
     bool visited;
     bool processing;
     int num;
@@ -34,6 +36,9 @@ public:
     bool isVisited() const;
     void setProcessing(bool cond);
     bool isProcessing() const;
+
+    int getIndegree() const;
+    void setIndegree(int indegree);
 
     void setNum(int num);
     int getNum() const;

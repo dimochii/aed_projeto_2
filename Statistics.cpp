@@ -232,25 +232,30 @@ void Statistics::maxTrip(Graph* graph) {
 
 struct CompareVertices {
     bool operator()(const Vertex* v1, const Vertex* v2) const {
-        return v1->getNumberFlights() < v2->getNumberFlights();
+        return (v1->getNumberFlights() + v1->getIndegree()) < (v2->getNumberFlights() + v2->getIndegree());
     }
 };
 
 void Statistics::topKAirTraffic(Graph *graph, int k) {
     std::priority_queue<Vertex*, std::vector<Vertex*>, CompareVertices> airportPriorityQueue;
     queue<Vertex *> vQueue;
+
+    for (auto vertex : graph->getVertexSet()) {
+        for (auto edge: vertex->getFlights()) {
+            auto w = edge.getDestination();
+            w->setIndegree(w->getIndegree()+1);
+        }
+    }
     for (auto vertex : graph->getVertexSet()) {
         airportPriorityQueue.push(vertex);
     }
-    for(int i = 0; i <= k-1; i++){
+
+    for(int i = 0; i <= min(k,3018); i++){
+        auto trafficVert = airportPriorityQueue.top();
+        cout<< i+1<<": " << trafficVert->getAirport().getName() <<" ("<<trafficVert->getAirport().getCode()<<')'<<endl;
         if(!airportPriorityQueue.empty())airportPriorityQueue.pop();
     }
-    if(airportPriorityQueue.empty()) cout <<"Invalid. There are only "<<graph->getVertexSet().size()<<" airports.";
-    else{
-        auto trafficVert = airportPriorityQueue.top();
-        cout<< "The airport is: "<<trafficVert->getAirport().getName()<<" ("<<trafficVert->getAirport().getCode()<<')'<<endl<<
-            "with "<<trafficVert->getNumberFlights()<<" flights";
-    }
+
 }
 
 void Statistics::dfs_art(Graph*g, Vertex*v, unordered_set<string> &l, int &i) {
