@@ -264,11 +264,11 @@ Airport Menu::askAirportCode() {
     cout << "Airport code: ";
     string code; cin >> code;
 
-    auto itCode = graph->findVertexCode(code);
+    auto itCode = graphAtual->findVertexCode(code);
     while (itCode == nullptr) {
         cout << "Invalid, try again. Airport code: ";
         cin >> code;
-        itCode = graph->findVertexCode(code);
+        itCode = graphAtual->findVertexCode(code);
     }
     cout << " " << endl;
     return itCode->getAirport();
@@ -278,12 +278,12 @@ Airport Menu::askAirportName() {
     bool first = true;
     string name; getline(cin, name);
 
-    auto itName = graph->findVertexName(name);
+    auto itName = graphAtual->findVertexName(name);
     while (itName == nullptr) {
         if (first) { cout << "Airport name: "; first = false; }
         else cout << "Invalid, try again. Airport name:  ";
         getline(cin, name);
-        itName = graph->findVertexName(name);
+        itName = graphAtual->findVertexName(name);
     }
     cout << " " << endl;
     return itName->getAirport();
@@ -376,7 +376,7 @@ void Menu::sourceLocation() {
         destinationLocation(airportsSource);
     }
     if (option == "3"){
-        airportsSource = Filter::AirportsCity(graph, askCity());
+        airportsSource = Filter::AirportsCity(graphAtual, askCity());
         cout << " " << endl;
         destinationLocation(airportsSource);
     }
@@ -403,7 +403,7 @@ void Menu::sourceLocation() {
         cout << " " << endl;
         double lon = stod(longitude);
 
-        airportsSource = Filter::geographicalLocation(graph, lat, lon);
+        airportsSource = Filter::geographicalLocation(graphAtual, lat, lon);
 
         cout << "Closest Airport:"<<endl;
         for (auto air: airportsSource)
@@ -435,7 +435,7 @@ void Menu::destinationLocation(vector<Airport> airportsSource) {
         airportsDest.push_back(askAirportName());
     }
     if (option == "3"){
-        airportsDest = Filter::AirportsCity(graph, askCity());
+        airportsDest = Filter::AirportsCity(graphAtual, askCity());
     }
     if (option == "4"){
         cout << "Latitude: ";
@@ -460,7 +460,7 @@ void Menu::destinationLocation(vector<Airport> airportsSource) {
         cout << " " << endl;
         double lon = stod(longitude);
 
-        airportsDest = Filter::geographicalLocation(graph, lat, lon);
+        airportsDest = Filter::geographicalLocation(graphAtual, lat, lon);
 
         cout << "Closest Airports:"<<endl;
         for (auto air: airportsDest){
@@ -470,7 +470,7 @@ void Menu::destinationLocation(vector<Airport> airportsSource) {
     if (option == "5") { sourceLocation(); }
     cout << " " << endl;
 
-    if (option != "5" && Filter::bestOptionNoFilters(graph, airportsSource, airportsDest)) {
+    if (option != "5" && Filter::bestOptionNoFilters(graphAtual, airportsSource, airportsDest)) {
         cout << " " << endl;
         cout << "Do you want to filter your options by minimum number of different airlines?" << endl;
         cout << "Yes\n" << "No\n";
@@ -485,7 +485,7 @@ void Menu::destinationLocation(vector<Airport> airportsSource) {
 
         cout << " " << endl;
         if (op == "Yes" || op == "yes")
-            Filter::minAirlines(graph, airportsSource, airportsDest);
+            Filter::minAirlines(graphAtual, airportsSource, airportsDest);
 
         askContinue();
     }
