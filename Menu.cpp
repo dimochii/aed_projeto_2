@@ -366,64 +366,13 @@ void Menu::sourceLocation() {
     cout << " " << endl;
     vector<Airport> airportsSource;
     if (option == "1"){
-        string code;
-
-        bool valid=false;
-        while(!valid) {
-            cout << "Airport Code: ";
-            cin >> code;
-            for (auto airport: graph->getVertexSet()) {
-                if (airport->getAirport().getCode() == code) {
-                    valid=true;
-                }
-            }
-            if(!valid){
-                cout << "Invalid input. ";
-            }
-        }
-
-        airportsSource = Filter::AirportCode(graph, code);
-
+        airportsSource.push_back(askAirportCode());
     }
     if (option == "2"){
-        string name;
-
-        bool valid=false;
-        while(!valid) {
-            cout << "Airport Name: ";
-            cin >> name;
-            for (auto airport: graph->getVertexSet()) {
-                if (airport->getAirport().getName() == name) {
-                    valid=true;
-                }
-            }
-            if(!valid){
-                cout << "Invalid input. ";
-            }
-        }
-
-        airportsSource = Filter::AirportName(graph, name);
-
+        airportsSource.push_back(askAirportName());
     }
     if (option == "3"){
-        string city;
-
-        bool valid=false;
-        while(!valid) {
-            cout << "City: ";
-            cin >> city;
-            for (auto airport: graph->getVertexSet()) {
-                if (airport->getAirport().getCity() == city) {
-                    valid=true;
-                }
-            }
-            if(!valid){
-                cout << "Invalid input. ";
-            }
-        }
-
-        airportsSource = Filter::AirportsCity(graph, city);
-
+        airportsSource = Filter::AirportsCity(graph, askCity());
     }
     if (option == "4"){
         cout << "Latitude: ";
@@ -474,63 +423,13 @@ void Menu::destinationLocation(vector<Airport> airportsSource){
     cout << " " << endl;
     vector<Airport> airportsDest;
     if (option == "1"){
-        string code;
-
-        bool valid=false;
-        while(!valid) {
-            cout << "Airport Code: ";
-            cin >> code;
-            for (auto airport: graph->getVertexSet()) {
-                if (airport->getAirport().getCode() == code) {
-                    valid=true;
-                }
-            }
-            if(!valid){
-                cout << "Invalid input. ";
-            }
-        }
-
-        airportsDest = Filter::AirportCode(graph, code);
-
+        airportsDest.push_back(askAirportCode());
     }
     if (option == "2"){
-        string name;
-
-        bool valid=false;
-        while(!valid) {
-            cout << "Airport Name: ";
-            cin >> name;
-            for (auto airport: graph->getVertexSet()) {
-                if (airport->getAirport().getName() == name) {
-                    valid=true;
-                }
-            }
-            if(!valid){
-                cout << "Invalid input. ";
-            }
-        }
-
-        airportsDest = Filter::AirportName(graph, name);
-
+        airportsDest.push_back(askAirportName());
     }
     if (option == "3"){
-        string city;
-
-        bool valid=false;
-        while(!valid) {
-            cout << "City: ";
-            cin >> city;
-            for (auto airport: graph->getVertexSet()) {
-                if (airport->getAirport().getCity() == city) {
-                    valid=true;
-                }
-            }
-            if(!valid){
-                cout << "Invalid input. ";
-            }
-        }
-        airportsDest = Filter::AirportsCity(graph, city);
-
+        airportsDest = Filter::AirportsCity(graph, askCity());
     }
     if (option == "4"){
         cout << "Latitude: ";
@@ -565,24 +464,25 @@ void Menu::destinationLocation(vector<Airport> airportsSource){
     if (option == "5"){sourceLocation();}
     cout << " " << endl;
 
-    Filter::bestOptionNoFilters(graph, airportsSource, airportsDest);
-    cout << " " << endl;
-    cout << "Do you want to filter your options by minimum number of different airlines?" << endl;
-    cout << "Yes\n" << "No\n" ;
-    cout << "Answer: ";
-    string op; cin >> op;
+    if(Filter::bestOptionNoFilters(graph, airportsSource, airportsDest)) {
+        cout << " " << endl;
+        cout << "Do you want to filter your options by minimum number of different airlines?" << endl;
+        cout << "Yes\n" << "No\n";
+        cout << "Answer: ";
+        string op;
+        cin >> op;
 
-    while (!(op == "Yes" || op == "No" || op == "yes" || op == "no")) {
-        cout << "Invalid input. Answer: ";
-        cin >> option;
+        while (!(op == "Yes" || op == "No" || op == "yes" || op == "no")) {
+            cout << "Invalid input. Answer: ";
+            cin >> op;
+        }
+
+        cout << " " << endl;
+
+        if (op == "Yes" || op == "yes") {
+            Filter::minAirlines(graph, airportsSource, airportsDest);
+        }
     }
-
-    cout << " " << endl;
-
-    if(op=="Yes" || op=="yes"){
-        Filter::minAirlines(graph, airportsSource, airportsDest);
-    }
-
     askContinue();
 }
 

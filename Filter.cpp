@@ -49,52 +49,36 @@ vector<Airport> Filter::AirportsCity(Graph *g, string city){
     return res;
 }
 
-vector<Airport> Filter::AirportCode(Graph *g, string code){
-    vector<Airport> res;
-    for(auto vertex: g->getVertexSet()){
-        if(vertex->getAirport().getCode()==code) {
-            res.push_back(vertex->getAirport());
-            return res;
-        }
-    }
-    return res;
-}
-
-vector<Airport> Filter::AirportName(Graph *g, string name){
-    vector<Airport> res;
-    for(auto vertex: g->getVertexSet()){
-        if(vertex->getAirport().getName()==name){
-            res.push_back(vertex->getAirport());
-            return res;
-        }
-    }
-    return res;
-}
-
-void Filter::bestOptionNoFilters(Graph* g, vector<Airport> sourceV, vector<Airport> destV){
+bool Filter::bestOptionNoFilters(Graph* g, vector<Airport> sourceV, vector<Airport> destV){
+    bool available=true;
     vector<vector<pair<Airline, Vertex*>>> bestOptions;
     bestOptions= bestOptionMix(g, sourceV, destV);
     int i=0;
-    for(auto vetor: bestOptions){
-        bool first=true;
-        string lastA;
-        string lastC;
-        i++;
-        cout<<"Option "<<i<<":"<<endl;
-        for(auto p: vetor){
-            if(first){
-                first=false;
-            }
-            else{
-                cout<<lastA << "["<< lastC<<"]" " ----->" <<' '<<p.second->getAirport().getCode() << "["<<p.second->getAirport().getCity()<<"] "<< "Airline: "<< p.first.getCode()<<endl;
-            }
-            lastA=p.second->getAirport().getCode();
-            lastC=p.second->getAirport().getCity();
+    for (auto vetor: bestOptions) {
+        if(vetor.size()==1){
+            cout<<"No available options"<<endl;
+            available=false;
         }
-        cout<<endl;
+        else {
+            bool first = true;
+            string lastA;
+            string lastC;
+            i++;
+            cout << "Option " << i << ":" << endl;
+            for (auto p: vetor) {
+                if (first) {
+                    first = false;
+                } else {
+                    cout << lastA << "[" << lastC << "]" " ----->" << ' ' << p.second->getAirport().getCode() << "["
+                    << p.second->getAirport().getCity() << "] " << "Airline: " << p.first.getCode() << endl;
+                }
+                lastA = p.second->getAirport().getCode();
+                lastC = p.second->getAirport().getCity();
+            }
+            cout << endl;
+        }
     }
-    return;
-
+    return available;
 }
 
 vector<vector<pair<Airline, Vertex*>>> Filter::minPathAirports(Graph* g, Vertex* source, Vertex* dest){
