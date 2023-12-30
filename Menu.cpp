@@ -486,9 +486,8 @@ void Menu::destinationLocation(vector<Airport> airportsSource) {
         cout << " " << endl;
         if (op == "Yes" || op == "yes")
             Filter::minAirlines(graphAtual, airportsSource, airportsDest);
-
-        askContinue();
     }
+    askContinue();
 }
 
 void Menu::askContinue() {

@@ -54,10 +54,15 @@ bool Filter::bestOptionNoFilters(Graph* g, vector<Airport> sourceV, vector<Airpo
     vector<vector<pair<Airline, Vertex*>>> bestOptions;
     bestOptions= bestOptionMix(g, sourceV, destV);
     int i=0;
+    if(bestOptions.empty()){
+        cout << "No available options"<<endl;
+        available=false;
+    }
     for (auto vetor: bestOptions) {
         if(vetor.size()==1){
             cout<<"No available options"<<endl;
             available=false;
+            break;
         }
         else {
             bool first = true;
@@ -127,6 +132,9 @@ vector<vector<pair<Airline, Vertex*>>> Filter::minPathAirports(Graph* g, Vertex*
             }
         }
     }
+    if(res.size()==0){
+        return vector<vector<pair<Airline, Vertex*>>>();
+    }
     return res;
 }
 
@@ -139,12 +147,12 @@ vector<vector<pair<Airline, Vertex*>>> Filter::bestOptionMix(Graph* g, vector<Ai
             Vertex* airportD = g->findVertex(airportD_);
             vector<vector<pair<Airline, Vertex*>>> current=minPathAirports(g, airportS, airportD);
 
-            if(current[0].size()<min){
+            if(current.size()!=0 && current[0].size()<min){
                 min=current[0].size();
                 bestOptions.clear();
                 bestOptions=current;
             }
-            else if(current[0].size()==min){
+            else if(current.size()!=0 && current[0].size()==min){
                 for(auto option: current){
                     bestOptions.push_back(option);
                 }
