@@ -250,16 +250,12 @@ void Statistics::topKAirTraffic(Graph *graph, int k) {
         airportPriorityQueue.push(vertex);
     }
 
-
-    for(int i = 0; i <= k-1; i++){
+    for(int i = 0; i <= min(k,3018); i++){
+        auto trafficVert = airportPriorityQueue.top();
+        cout<< i+1<<": " << trafficVert->getAirport().getName() <<" ("<<trafficVert->getAirport().getCode()<<')'<<endl;
         if(!airportPriorityQueue.empty())airportPriorityQueue.pop();
     }
-    if(airportPriorityQueue.empty()) cout <<"Invalid. There are only "<<graph->getVertexSet().size()<<" airports.";
-    else{
-        auto trafficVert = airportPriorityQueue.top();
-        cout<< "The airport is: "<<trafficVert->getAirport().getName()<<" ("<<trafficVert->getAirport().getCode()<<')'<<endl<<
-            "with "<<trafficVert->getNumberFlights() + trafficVert->getIndegree()<<" flights";
-    }
+
 }
 
 void Statistics::dfs_art(Graph*g, Vertex*v, unordered_set<string> &l, int &i) {
