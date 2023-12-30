@@ -367,12 +367,18 @@ void Menu::sourceLocation() {
     vector<Airport> airportsSource;
     if (option == "1"){
         airportsSource.push_back(askAirportCode());
+        cout << " " << endl;
+        destinationLocation(airportsSource);
     }
     if (option == "2"){
         airportsSource.push_back(askAirportName());
+        cout << " " << endl;
+        destinationLocation(airportsSource);
     }
     if (option == "3"){
         airportsSource = Filter::AirportsCity(graph, askCity());
+        cout << " " << endl;
+        destinationLocation(airportsSource);
     }
     if (option == "4"){
         cout << "Latitude: ";
@@ -400,17 +406,17 @@ void Menu::sourceLocation() {
         airportsSource = Filter::geographicalLocation(graph, lat, lon);
 
         cout << "Closest Airport:"<<endl;
-        for(auto air: airportsSource){
+        for (auto air: airportsSource)
             cout<<air.getCode()<<endl;
-        }
-    }
-    if (option == "5"){initialOptions();}
 
-    cout << " " << endl;
-    destinationLocation(airportsSource);
+        cout << " " << endl;
+        destinationLocation(airportsSource);
+    }
+    if (option == "5") {initialOptions();}
+
 }
 
-void Menu::destinationLocation(vector<Airport> airportsSource){
+void Menu::destinationLocation(vector<Airport> airportsSource) {
     cout << "How do you want to specify your destination location?" << endl;
     cout << "1.Airport code\n" << "2.Airport name\n" << "3.City\n" << "4.Geographical coordinates\n" << "5.Go back\n";
     cout << "Option: ";
@@ -457,14 +463,14 @@ void Menu::destinationLocation(vector<Airport> airportsSource){
         airportsDest = Filter::geographicalLocation(graph, lat, lon);
 
         cout << "Closest Airports:"<<endl;
-        for(auto air: airportsDest){
+        for (auto air: airportsDest){
             cout<<air.getCode()<<endl;
         }
     }
-    if (option == "5"){sourceLocation();}
+    if (option == "5") { sourceLocation(); }
     cout << " " << endl;
 
-    if(Filter::bestOptionNoFilters(graph, airportsSource, airportsDest)) {
+    if (option != "5" && Filter::bestOptionNoFilters(graph, airportsSource, airportsDest)) {
         cout << " " << endl;
         cout << "Do you want to filter your options by minimum number of different airlines?" << endl;
         cout << "Yes\n" << "No\n";
@@ -478,12 +484,11 @@ void Menu::destinationLocation(vector<Airport> airportsSource){
         }
 
         cout << " " << endl;
-
-        if (op == "Yes" || op == "yes") {
+        if (op == "Yes" || op == "yes")
             Filter::minAirlines(graph, airportsSource, airportsDest);
-        }
+
+        askContinue();
     }
-    askContinue();
 }
 
 void Menu::askContinue() {
