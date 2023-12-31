@@ -9,6 +9,9 @@
 /**
  * @brief Verifica quais são os airports mais perto das coordenadas dadas.
  *
+ * Esta função retorna um vetor de aeroportos com base na proximidade geográfica
+ * de um ponto de referência representado por uma latitude e longitude.
+ *
  * @complexity O(V).
  *
  * @param graph - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
@@ -64,6 +67,8 @@ float Filter::harvesineDistance(double lat1, double lon1, double lat2, double lo
 /**
  * @brief Verifica quais são os airports numa dada cidade.
  *
+ * Esta função percorre o conjunto de vértices do graph e coleta todos os aeroportos que pertencem à cidade especifica.
+ *
  * @complexity O(V).
  *
  * @param graph - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
@@ -81,7 +86,10 @@ vector<Airport> Filter::AirportsCity(Graph *g, string city){
 }
 
 /**
- * @brief Verifica quais são as opcções com menos paragens entre os airports de origem e destino.
+ * @brief Verifica e exibe quais são as opcções com menos paragens entre os airports de origem e destino.
+ *
+ * Esta função determina as melhores opções para a viagem com base nas combinações de aeroportos de origem e destino fornecidos.
+ * A função imprime as opções disponíveis e suas respetivas informações de voo.
  *
  * @complexity O(V + E).
  *
@@ -129,6 +137,9 @@ bool Filter::bestOptionNoFilters(Graph* g, vector<Airport> sourceV, vector<Airpo
 
 /**
  * @brief Verifica qual é o caminho com menos paragens entre dois vértices do graph.
+ *
+ * Esta função utiliza uma abordagem de busca em largura (BFS) para encontrar o caminho mínimo entre dois vértices em um graph.
+ * O caminho é representado como uma lista de pares contendo a airline e o vértice (airport) associado.
  *
  * @complexity O(V + E).
  *
@@ -191,6 +202,9 @@ vector<vector<pair<Airline, Vertex*>>> Filter::minPathAirports(Graph* g, Vertex*
 /**
  * @brief Verifica qual é o caminho com menos paragens entre airports de origem e destino.
  *
+ * Esta função calcula as melhores opções de rotas entre aeroportos de origem e destino.
+ * A função utiliza a função minPathAirports para determinar os caminhos mínimos entre cada par de aeroportos de origem e destino.
+ *
  * @complexity O((V+E)×n×m+k) -> n: number of elements of sourceV; m: number of elements of destV; k: number of elements in filtered options;
  *
  * @param sourceV - vector com airports de origem.
@@ -223,6 +237,9 @@ vector<vector<pair<Airline, Vertex*>>> Filter::bestOptionMix(Graph* g, vector<Ai
 
 /**
  * @brief Verifica qual é o caminho com menos paragens entre dois vértices do graph e que minimiza o número de airlines diferentes.
+ *
+ * Esta função avalia as opções de rotas previamente determinadas pela função bestOptionMix,
+ * e filtra aquelas que envolvem o menor número de airlines distintas.
  *
  * @complexity O((V+E)×n×m+k) -> n: number of elements of sourceV; m: number of elements of destV; k: number of elements in filtered options;
  *
@@ -275,6 +292,11 @@ void Filter::minAirlines(Graph* g, vector<Airport> sourceV, vector<Airport> dest
 
 /**
  * @brief Verifica quais as airlines filtradas.
+ *
+ * Esta função recebe uma string contendo nomes de airlines.
+ * Procura na hash table de airlines as airlines especificadas e obtem os códigos correspondentes
+ * e retorna um vetor contendo esses códigos.
+ *
  * @param str - string com airlines escolhidas.
  * @param airTable - hash table com airlines.
  * @return vector - Retorna vetor com códigos das airlines filtradas.
