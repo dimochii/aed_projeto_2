@@ -6,6 +6,16 @@
 #include "Filter.h"
 #include "AirTable.h"
 
+/**
+ * @brief Verifica quais são os airports mais perto das coordenadas dadas.
+ *
+ * @complexity O(V).
+ *
+ * @param graph - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
+ * @param lat - latitude dada.
+ * @param lon - longitude dada.
+ * @return vector - Retorna vetor com os airports mais próximos das coordenadas dadas.
+*/
 vector<Airport> Filter::geographicalLocation(Graph *graph, double lat, double lon) {
     vector<Airport> res; double distance = 40000;
     for (Vertex* vertex: graph->getVertexSet()) {
@@ -22,6 +32,18 @@ vector<Airport> Filter::geographicalLocation(Graph *graph, double lat, double lo
     return res;
 }
 
+/**
+ * @brief Calcula a distância entre dois pontos na Terra usando a fórmula de Haversine.
+ *
+ * Esta função calcula a distância entre dois pontos na Terra dadas suas latitudes e longitudes.
+ * A fórmula de Haversine é usada para este cálculo.
+ *
+ * @param lat1 - Latitude do primeiro ponto em graus.
+ * @param lon1 - Longitude do primeiro ponto em graus.
+ * @param lat2 - Latitude do segundo ponto em graus.
+ * @param lon2 - Longitude do segundo ponto em graus.
+ * @return float - Retorna a distância entre os dois pontos.
+ */
 float Filter::harvesineDistance(double lat1, double lon1, double lat2, double lon2) {
     const double radiusEarth = 6371.0;
 
@@ -39,6 +61,15 @@ float Filter::harvesineDistance(double lat1, double lon1, double lat2, double lo
     return radiusEarth * c;
 }
 
+/**
+ * @brief Verifica quais são os airports numa dada cidade.
+ *
+ * @complexity O(V).
+ *
+ * @param graph - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
+ * @param city - cidade dada.
+ * @return vector - Retorna vetor com os airports da cidade dada.
+*/
 vector<Airport> Filter::AirportsCity(Graph *g, string city){
     vector<Airport> res;
     for(auto airport: g->getVertexSet()){
@@ -49,6 +80,16 @@ vector<Airport> Filter::AirportsCity(Graph *g, string city){
     return res;
 }
 
+/**
+ * @brief Verifica quais são as opcções com menos paragens entre os airports de origem e destino.
+ *
+ * @complexity O(V + E).
+ *
+ * @param graph - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
+ * @param sourceV - vetor com airports de origem.
+ * @param destV - vetor com airports de destino.
+ * @return true se houver pelo menos uma opção, else false.
+*/
 bool Filter::bestOptionNoFilters(Graph* g, vector<Airport> sourceV, vector<Airport> destV){
     bool available=true;
     vector<vector<pair<Airline, Vertex*>>> bestOptions;
@@ -86,6 +127,15 @@ bool Filter::bestOptionNoFilters(Graph* g, vector<Airport> sourceV, vector<Airpo
     return available;
 }
 
+/**
+ * @brief Verifica qual é o caminho com menos paragens entre dois vértices do graph.
+ *
+ * @complexity O(V + E).
+ *
+ * @param source - vértice de origem.
+ * @param dest - vértice de destino.
+ * @return vector - Retorna vetor de vetores de pares com airline de uma aresta e restivo vértice de destino dessa aresta.
+*/
 vector<vector<pair<Airline, Vertex*>>> Filter::minPathAirports(Graph* g, Vertex* source, Vertex* dest){
     vector<vector<pair<Airline, Vertex*>>> res;
     for(auto vertex: g->getVertexSet()){
@@ -138,6 +188,15 @@ vector<vector<pair<Airline, Vertex*>>> Filter::minPathAirports(Graph* g, Vertex*
     return res;
 }
 
+/**
+ * @brief Verifica qual é o caminho com menos paragens entre airports de origem e destino.
+ *
+ * @complexity O((V+E)×n×m+k) -> n: number of elements of sourceV; m: number of elements of destV; k: number of elements in filtered options;
+ *
+ * @param sourceV - vector com airports de origem.
+ * @param destV - vector com airports de destino.
+ * @return vector - Retorna vetor de vetores de pares com airline de uma aresta e restivo vértice de destino dessa aresta.
+*/
 vector<vector<pair<Airline, Vertex*>>> Filter::bestOptionMix(Graph* g, vector<Airport> sourceV, vector<Airport> destV){
     int min=100000;
     vector<vector<pair<Airline, Vertex*>>> bestOptions;
@@ -162,6 +221,14 @@ vector<vector<pair<Airline, Vertex*>>> Filter::bestOptionMix(Graph* g, vector<Ai
     return bestOptions;
 }
 
+/**
+ * @brief Verifica qual é o caminho com menos paragens entre dois vértices do graph e que minimiza o número de airlines diferentes.
+ *
+ * @complexity O((V+E)×n×m+k) -> n: number of elements of sourceV; m: number of elements of destV; k: number of elements in filtered options;
+ *
+ * @param sourceV - vector com airports de origem.
+ * @param destV - vector com airports de destino.
+*/
 void Filter::minAirlines(Graph* g, vector<Airport> sourceV, vector<Airport> destV){
     vector<vector<pair<Airline, Vertex*>>> bestOptions;
     vector<vector<pair<Airline, Vertex*>>> filteredOptions;
@@ -206,6 +273,12 @@ void Filter::minAirlines(Graph* g, vector<Airport> sourceV, vector<Airport> dest
     return;
 }
 
+/**
+ * @brief Verifica quais as airlines filtradas.
+ * @param str - string com airlines escolhidas.
+ * @param airTable - hash table com airlines.
+ * @return vector - Retorna vetor com códigos das airlines filtradas.
+*/
 vector<string> Filter::airlineFilter(string str, AirTable* airTable) {
     vector<string> airlineNames;
     vector<string> airlineCodes;
@@ -225,6 +298,18 @@ vector<string> Filter::airlineFilter(string str, AirTable* airTable) {
     return airlineCodes;
 }
 
+/**
+ * @brief Filtra as airlines de acordo com as airlines escolhidas.
+ *
+ * Esta função cria um novo graph que contém apenas vértices e arestas associados às companhias aéreas fornecidas.
+ *
+ * @complexity O(n+m) + O(V⋅E+E⋅m)  (onde n é o nome da companhia e m é o número total de companhias aéreas)
+ *
+ * @param airlineCodes - vector com códigos das airlines escolhidas.
+ * @param graph - graph.
+ * @param airTable - hash table com airlines.
+ * @return Graph* - Retorna graph filtrado de acordo com as airlines escolhidas.
+*/
 Graph* Filter::airlineFilterGraph( vector<string> airlineCodes,Graph* graph, AirTable* airTable){
     Graph* graph1 = new Graph();
 

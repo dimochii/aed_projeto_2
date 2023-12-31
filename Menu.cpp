@@ -13,17 +13,24 @@ Graph *Menu::getGraph() { return graph; }
 AirTable *Menu::getAirTable() { return airTable; }
 CityTable *Menu::getCityTable() { return cityTable; }
 
-
+/**
+ * @brief Abre o menu principal.
+*/
 void Menu::openMenu() {
     cout << setw(25) << "Welcome!" << endl;
     initialOptions();
 }
 
+/**
+ * @brief Fecha o menu.
+*/
 int Menu::closeMenu() {
     return 0;
 }
 
-
+/**
+ * @brief Apresenta as opções inicais do menu.
+*/
 void Menu::initialOptions() {
     cout << "What do you want to do?" << endl;
     cout << "1. Statistics\n" << "2. Best flight option\n" << "3. Filter\n" << "4. Quit\n";
@@ -43,7 +50,9 @@ void Menu::initialOptions() {
 }
 
 
-
+/**
+ * @brief Apresenta as opções de estatístcas do menu.
+*/
 void Menu::statistics() {
     cout << "What do you want to consult?" << endl;
     cout << "1.Numbers\n" << "2.Others\n" << "3.Go back\n";
@@ -61,6 +70,10 @@ void Menu::statistics() {
     if (option == "3"){initialOptions();}
 }
 
+/**
+ * @brief Apesenta as opções de estatísticas que retornam um número.
+ * Esta função também retorna os dados pedidos.
+*/
 void Menu::statisticsNumbers() {
     cout << "Which number do you want to see?" << endl;
     cout << "1.Total number of airports\n" << "2.Total number of flights\n" << "3.Number of flights and airlines out of an airport\n"
@@ -85,6 +98,10 @@ void Menu::statisticsNumbers() {
     if (option == "8") { statistics(); }
 }
 
+/**
+ * @brief Apresenta as opções relacionadas ao número de voos.
+ * Esta função também retorna os dados pedidos.
+*/
 void Menu::statistics4() {
     cout << "Per what?" << endl;
     cout << "1.Per city\n" << "2.Per airline\n";
@@ -101,6 +118,10 @@ void Menu::statistics4() {
     if (option == "2"){ Airline airline = askAirline(); Statistics::flightsPerAirline(graphAtual, airline); askContinue();}
 }
 
+/**
+ * @brief Apresenta as opções relacionadas ao número de países.
+ * Esta função também retorna os dados pedidos.
+*/
 void Menu::statistics5() {
     cout << "1.That a given airport flies to\n" << "2.That a given city flies to\n";
     cout << "Option: ";
@@ -116,6 +137,10 @@ void Menu::statistics5() {
     if (option == "2") { string city = askCity(); Statistics::countriesPerCity(graphAtual, city); askContinue(); }
 }
 
+/**
+ * @brief Apresenta as opções de escolha de destino.
+ * @return string - Retorna string com a opção escolhida.
+*/
 string Menu::askMode() {
     cout << "Which destinations?" << endl;
     cout << "1.Airports\n" << "2.Cities\n" << "3.Countries\n";
@@ -134,6 +159,11 @@ string Menu::askMode() {
     return " ";
 }
 
+/**
+ * @brief Verifica se uma string pode ser convertida para inteiro.
+ * @param s - string pedida.
+ * @return true se a string poder ser convertida para inteiro, else false
+*/
 bool isInteger(const std::string& s) {
     std::istringstream iss(s);
     int num;
@@ -141,6 +171,11 @@ bool isInteger(const std::string& s) {
     return iss.eof() && !iss.fail();
 }
 
+/**
+ * @brief Verifica se uma string pode ser convertida para double.
+ * @param s - string pedida.
+ * @return true se a string poder ser convertida para double, else false.
+*/
 bool isDouble(const std::string &s) {
     try {
         std::stod(s);
@@ -150,6 +185,10 @@ bool isDouble(const std::string &s) {
     }
 }
 
+/**
+ * @brief Pergunta número máximo de paragens.
+ * @return int - Retorna número máximo de paragens convertido para inteiro.
+*/
 int Menu::askX() {
     cout << "Number of maximum stops: ";
     string n; cin >> n;
@@ -163,7 +202,11 @@ int Menu::askX() {
     return stoi(n);
 }
 
-
+/**
+ * @brief Exibe opções de estatísticas.
+ *
+ * Permite aos usuários escolher entre várias operações.
+ */
 void Menu::statisticsOthers() {
     cout << "What do you want to see?" << endl;
     cout << "1.Flight trip(s) with the greatest number of stops\n"
@@ -186,6 +229,11 @@ void Menu::statisticsOthers() {
     cout << " " << endl;
 }
 
+/**
+ * @brief Pergunta ao usuário número de airports para a pesquisa.
+ *
+ * @return int - Retorna o valor inteiro de airports especificado pelo usuário.
+ */
 int Menu::askK(){
     cout << "By what k-airport do you wish to search for?" << endl;
     cout << "Number: ";
@@ -200,7 +248,11 @@ int Menu::askK(){
     return stoi(option);
 }
 
-
+/**
+ * @brief Gerencia opções de filtros de companhias aéreas.
+ *
+ * Permite aos usuários ativar, desativar ou alterar filtros de companhias aéreas.
+ */
 void Menu::filter() {
     cout << "Filter search by airlines. ";
     if(airlineFilter) cout<<"(ON) \n"; else cout<<"(OFF) \n";
@@ -221,6 +273,11 @@ void Menu::filter() {
     if (option == "3"){initialOptions();}
 }
 
+/**
+ * @brief Ativa o filtro de companhias aéreas.
+ *
+ * Permite aos usuários especificar companhias aéreas para as opções serem filtradas.
+ */
 void Menu::activateFilter() {
     cout << "Which airlines do you wish to travel with? "<<"(ex: Ryanair,TAP Air Portugal)\n";
     cout << "Airlines: ";
@@ -242,7 +299,12 @@ void Menu::activateFilter() {
     filter();
 }
 
-
+/**
+ * @brief Pede ao usuário para especificar o aeroporto.
+ *
+ * Os usuários podem pesquisar aeroportos por código ou por nome.
+ * @return Airport - Retorna o aeroporto selecionado.
+ */
 Airport Menu::askAirport() {
     cout << "How do you wish to search for the airport?" << endl;
     cout << "1.By the airport code\n" << "2.By the airport name\n";
@@ -260,6 +322,11 @@ Airport Menu::askAirport() {
     return Airport("DSM");
 }
 
+/**
+ * @brief Pede ao usuário o código de um aeroporto.
+ *
+ * @return Airport - Retorna o aeroporto correspondente ao código.
+ */
 Airport Menu::askAirportCode() {
     cout << "Airport code: ";
     string code; cin >> code;
@@ -274,6 +341,11 @@ Airport Menu::askAirportCode() {
     return itCode->getAirport();
 }
 
+/**
+ * @brief Pede ao usuário o nome de um aeroporto.
+ *
+ * @return Airport - Retorna o aeroporto correspondente ao nome.
+ */
 Airport Menu::askAirportName() {
     bool first = true;
     string name; getline(cin, name);
@@ -289,7 +361,12 @@ Airport Menu::askAirportName() {
     return itName->getAirport();
 }
 
-
+/**
+ * @brief Pergunta ao usuário para especificar uma airline.
+ *
+ * Os usuários podem pesquisar companhias aéreas por código ou por nome.
+ * @return Airline - Retorna airline selecionada.
+ */
 Airline Menu::askAirline() {
     cout << "How do you wish to search for the airline?" << endl;
     cout << "1.By the airline code\n" << "2.By the airline name\n";
@@ -307,6 +384,11 @@ Airline Menu::askAirline() {
     return Airline();
 }
 
+/**
+ * @brief Pergunta ao usuário pelo código de uma airline.
+ *
+ * @return Airline - Retorna airline correspondente ao código.
+ */
 Airline Menu::askAirlineCode() {
     cout << "Airline code: ";
     string code; cin >> code;
@@ -321,6 +403,11 @@ Airline Menu::askAirlineCode() {
     return *itCode;
 }
 
+/**
+ * @brief Pergunta ao usuário pelo nome de uma airline.
+ *
+ * @return Airline - Retorna airline correspondente ao nome.
+ */
 Airline Menu::askAirlineName() {
     bool first = true;
     string name; getline(cin, name);
@@ -336,6 +423,11 @@ Airline Menu::askAirlineName() {
     return *itName;
 }
 
+/**
+ * @brief Pergunta ao usuário por um nome de cidade.
+ *
+ * @return string - Retorna o nome da cidade especificado pelo usuário.
+ */
 string Menu::askCity() {
     bool first = true;
     string city; getline(cin, city);
@@ -352,7 +444,11 @@ string Menu::askCity() {
     return city;
 }
 
-
+/**
+ * @brief Gerencia o local de origem para uma viagem.
+ *
+ * Permite aos usuários especificar a origem da viagem.
+ */
 void Menu::sourceLocation() {
     cout << "How do you want to specify your source location?" << endl;
     cout << "1.Airport code\n" << "2.Airport name\n" << "3.City\n" << "4.Geographical coordinates\n" << "5.Go back\n";
@@ -416,6 +512,12 @@ void Menu::sourceLocation() {
 
 }
 
+/**
+ * @brief Gerencia o local de destino para uma viagem.
+ *
+ * Permite aos usuários especificar o destino de sua jornada.
+ * @param airportsSource - vetor de aeroportos de origem.
+ */
 void Menu::destinationLocation(vector<Airport> airportsSource) {
     cout << "How do you want to specify your destination location?" << endl;
     cout << "1.Airport code\n" << "2.Airport name\n" << "3.City\n" << "4.Geographical coordinates\n" << "5.Go back\n";
@@ -490,6 +592,11 @@ void Menu::destinationLocation(vector<Airport> airportsSource) {
     askContinue();
 }
 
+/**
+ * @brief Pergunta ao usuário se ele deseja continuar.
+ *
+ * Oferece uma opção para os usuários continuarem ou saírem do programa.
+ */
 void Menu::askContinue() {
     cout << " " << endl;
     cout << "---------------------------------\n";

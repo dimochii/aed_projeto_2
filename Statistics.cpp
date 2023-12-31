@@ -2,10 +2,22 @@
 #include <iostream>
 #include <set>
 #include "Statistics.h"
+
+/**
+ * @brief Calcula e exibe o número total de aeroportos no grafo.
+ * @complexity O(1)
+ *
+ * @param graph - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
+ */
 void Statistics::totalNumberAirports(Graph* graph) {
     cout << "Total number of airports: " << graph->getNumberVertex() << endl;
 }
 
+/**
+ * @brief Calcula e exibe o número total de voos no grafo.
+ * @complexity O(V)
+ * @param graph - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
+ */
 void Statistics::totalNumberFlights(Graph* graph) {
     int num = 0;
     for (Vertex* vertex: graph->getVertexSet())
@@ -13,7 +25,13 @@ void Statistics::totalNumberFlights(Graph* graph) {
     cout << "Total number of flights: " << num << endl;
 }
 
-
+/**
+ * @brief Calcula e exibe o número de voos saindo de um aeroporto específico.
+ * @complexity O(log N).
+ *
+ * @param graph - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
+ * @param airport - Aeroporto para o qual o número de voos saindo será calculado.
+ */
 void Statistics::numFlightOutAir(Graph* graph,Airport airport) {
     set<Airline> outAirlines;
     auto it = graph->findVertex(airport);
@@ -26,7 +44,13 @@ void Statistics::numFlightOutAir(Graph* graph,Airport airport) {
     cout <<"Out of "<<outAirlines.size()<<" different airlines."<<endl;
 }
 
-
+/**
+ * @brief Calcula e exibe o número de voos de uma cidade específica.
+ * @complexity O(V).
+ *
+ * @param graph - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
+ * @param city - string com cidade para a qual será calculada o número de voos.
+ */
 void Statistics::flightsPerCity(Graph* g, string city) {
     int count=0;
     for (auto vertex: g->getVertexSet()) {
@@ -36,6 +60,13 @@ void Statistics::flightsPerCity(Graph* g, string city) {
     cout << "Number of flights on city " << city << ": " << count << endl;
 }
 
+/**
+ * @brief Calcula e exibe o número de voos de uma airline específica.
+ * @complexity O(V * E)
+ *
+ * @param graph - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
+ * @param airline - airline para a qual será calculada o número de voos.
+ */
 void Statistics::flightsPerAirline(Graph*g, Airline airline) {
     int count=0;
     for (auto vertex: g->getVertexSet()) {
@@ -47,7 +78,13 @@ void Statistics::flightsPerAirline(Graph*g, Airline airline) {
     cout << "Number of flights on airline " << airline.getCode() << ": " << count << endl;
 }
 
-
+/**
+ * @brief Calcula e exibe o número de países para os quais uma cidade específica tem voos..
+ * @complexity O(V * E).
+ *
+ * @param graph - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
+ * @param city - string com cidade escolhida.
+ */
 void Statistics::countriesPerCity(Graph* g, string city) {
     set<string> countries;
     for (auto vertex: g->getVertexSet()) {
@@ -62,6 +99,13 @@ void Statistics::countriesPerCity(Graph* g, string city) {
     cout << "Number of countries that the city " << city << " flies to: " << countries.size() << endl;
 }
 
+/**
+ * @brief Calcula e exibe o número de países para os quais um airport específico tem voos..
+ * @complexity O(V + E).
+ *
+ * @param graph - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
+ * @param airport - airport escolhido.
+ */
 void Statistics::countriesPerAirport(Graph* g, Airport airport) {
     set<string> countries;
     for (auto vertex: g->getVertexSet()) {
@@ -76,7 +120,18 @@ void Statistics::countriesPerAirport(Graph* g, Airport airport) {
     cout << "Number of countries that the airport " << airport.getCode() << " flies to: " << countries.size() << endl;
 }
 
-
+/**
+ * @brief Visita recursivamente os aeroportos de destino a partir de um vértice específico.
+ *
+ * Esta função visita os aeroportos de destino a partir de um vértice dado e coleta informações
+ * dependendo da opção fornecida.
+ *
+ * @complexity O(V + E).
+ *
+ * @param v - vértice a partir do qual iniciar a visita.
+ * @param res - set para armazenar as informações coletadas (cidades, países ou nomes de aeroportos).
+ * @param fOption - opção que determina o tipo de informação a ser coletada ("city", "country" ou "airport").
+ */
 void Statistics::numDestAirportVisit(Vertex *v, set<string> & res, string & fOption) {
     v->setVisited(true);
     if (fOption == "city") res.insert(v->getAirport().getCity());
@@ -90,6 +145,17 @@ void Statistics::numDestAirportVisit(Vertex *v, set<string> & res, string & fOpt
     }
 }
 
+/**
+ * @brief Calcula e exibe o número de destinos distintos que um airport específico tem voos..
+ *
+ * Esta função calcula o número de destinos distintos que um airport tem voos, dependendo da opção fornecida.
+ *
+ * @complexity O(V + E).
+ *
+ * @param graph - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
+ * @param source - airport para qual vai ser calculado o número de voos.
+ * @param fOption - opção que determina o tipo de destino ("city", "country" ou "airport").
+ */
 void Statistics::numDestinationsAirport( Graph *graph, Airport source, string fOption) {
     set<string> res;
     Vertex* vSource = graph->findVertex(source);
@@ -101,7 +167,16 @@ void Statistics::numDestinationsAirport( Graph *graph, Airport source, string fO
     cout << "The airport " << source.getCode() << " has " << res.size() <<" different "<< fOption << " destinations." << endl;
 }
 
-
+/**
+ * @brief Calcula os destinos alcançáveis a partir de um aeroporto com um número máximo de paragens.
+ *
+ * @complexity O(V + E).
+ *
+ * @param graph - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
+ * @param source - airport de partida.
+ * @param num - número máximo de paradas.
+ * @return vector - Retorna vetor com pointer para vértices (airports) que um airport consegue alcançar no número máximo de paragens.
+ */
 vector<Vertex *> Statistics::reachableDestinations(Graph* graph, Airport source, int num) {
     vector<Vertex *> res;
     Vertex* vSource = graph->findVertex(source);
@@ -142,6 +217,16 @@ vector<Vertex *> Statistics::reachableDestinations(Graph* graph, Airport source,
     return res;
 }
 
+/**
+ * @brief Calcula e exibe o número de destinos alcançáveis a partir de um aeroporto com um número máximo de paragens.
+ *
+ * @complexity O(V + E).
+ *
+ * @param graph - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
+ * @param source - airport de partida.
+ * @param num - número máximo de paradas.
+ * @param mode - modo de cálculo (aeroporto, cidade ou país).
+ */
 void Statistics::numberReachable(Graph* graph, Airport source, int num, string mode) {
     set<string> res;
     vector<Vertex *> reachableDest = reachableDestinations(graph, source, num);
@@ -165,7 +250,13 @@ void Statistics::numberReachable(Graph* graph, Airport source, int num, string m
     }
 }
 
-
+/**
+ * @brief Encontra o maior número de paragens possíveis em uma viagem a partir de um aeroporto.
+ *
+ * @complexity O(V + E).
+ *
+ * @param graph - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
+ */
 void Statistics::maxTripVertex(Graph* graph, Vertex* vSource, vector<pair<Airport,Airport>>& pairsMax, int& numMax) {
     int num = 0;
     queue<Vertex *> vQueue;
@@ -219,6 +310,13 @@ void Statistics::maxTripVertex(Graph* graph, Vertex* vSource, vector<pair<Airpor
     }
 }
 
+/**
+ * @brief Encontra o maior número de paragens possíveis em uma viagem a partir de um aeroporto.
+ *
+ * @complexity O(V + E).
+ *
+ * @param graph - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
+ */
 void Statistics::maxTrip(Graph* graph) {
     vector<pair<Airport,Airport>> pairsMax; int numMax = 0;
     for (Vertex* vertex: graph->getVertexSet())
@@ -236,6 +334,14 @@ struct CompareVertices {
     }
 };
 
+/**
+ * @brief Calcula e exibe os aeroportos com o tráfego mais alto, considerando o número de voos e o grau de entrada.
+ *
+ * @complexity O(V * LOG(V) + E).
+ *
+ * @param graph - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
+ * @param k - número máximo de aeroportos a serem exibidos.
+ */
 void Statistics::topKAirTraffic(Graph *graph, int k) {
     std::priority_queue<Vertex*, std::vector<Vertex*>, CompareVertices> airportPriorityQueue;
     queue<Vertex *> vQueue;
@@ -258,6 +364,16 @@ void Statistics::topKAirTraffic(Graph *graph, int k) {
 
 }
 
+/**
+ * @brief Função auxiliar para o algoritmo de identificação de pontos de articulação.
+ *
+ * @complexity O(V + E).
+ *
+ * @param g - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
+ * @param v - Vértice atual durante a travessia DFS.
+ * @param l - Conjunto para armazenar os pontos de articulação encontrados.
+ * @param i - ordem do vértice.
+ */
 void Statistics::dfs_art(Graph*g, Vertex*v, unordered_set<string> &l, int &i) {
     v->setNum(i); v->setLow(i);
     v->setProcessing(true); i++;
@@ -280,6 +396,13 @@ void Statistics::dfs_art(Graph*g, Vertex*v, unordered_set<string> &l, int &i) {
     v->setProcessing(false);
 }
 
+/**
+ * @brief Identifica e exibe os aeroportos essenciais (pontos de articulação) no grafo.
+ *
+ * @complexity O(V + E).
+ *
+ * @param g - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
+ */
 void Statistics::airport_art(Graph *g) {
     unordered_set<string> art;
     int i = 1;
