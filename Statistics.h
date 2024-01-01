@@ -32,7 +32,7 @@ public:
     static void topKAirTraffic(Graph *graph,int k);
 
     static void dfs_art(Graph *g, Vertex *v, unordered_set<string> &res, int &i);
-    static void airport_art(Graph* g);
+    static void airport_art(Graph* g, AirTable* hashTable);
 };
 
 
