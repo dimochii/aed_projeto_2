@@ -224,7 +224,7 @@ void Menu::statisticsOthers() {
     cout << " " << endl;
     if (option == "1"){ Statistics::maxTrip(graphAtual); askContinue(); }
     if (option == "2"){ int k = askK(); Statistics::topKAirTraffic(graphAtual,k-1); askContinue(); }
-    if (option == "3"){ Statistics::airport_art(graphAtual); askContinue(); }
+    if (option == "3"){ Statistics::airport_art(graphAtual, airTable); askContinue(); }
     if (option == "4"){ statistics(); }
     cout << " " << endl;
 }

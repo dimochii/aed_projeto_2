@@ -403,18 +403,33 @@ void Statistics::dfs_art(Graph*g, Vertex*v, unordered_set<string> &l, int &i) {
  *
  * @param g - Ponteiro para o grafo contendo os aeroportos (vértices) e respetivas airlines (arestas).
  */
-void Statistics::airport_art(Graph *g) {
+void Statistics::airport_art(Graph *g, AirTable* hashTable) {
+    Graph* graph1 = new Graph();
     unordered_set<string> art;
     int i = 1;
 
-    for(auto vertex: g->getVertexSet()){
+    for(auto vertexS: g->getVertexSet()){
+        graph1->addVertex(vertexS->getAirport());
+    }
+
+    for(auto vertexS: g->getVertexSet()){
+        auto vertS = graph1->findVertex(vertexS->getAirport());
+        for(auto edge: vertexS->getFlights()){
+            auto vertexD = edge.getDestination();
+            auto vertD = graph1->findVertex(vertexD->getAirport());
+            const Airline* airline = hashTable->findAirline(edge.getAirline().getCode());
+            graph1->addEdge(vertS, vertD, airline);
+            graph1->addEdge(vertD, vertS, airline);
+        }
+    }
+
+    for(auto vertex: graph1->getVertexSet()){
         vertex->setNum(-1);
         vertex->setProcessing(false);
     }
-
-    for(auto vertex: g->getVertexSet()){
-        if(vertex->getNum()==-1)
-            dfs_art(g, vertex, art, i);
+    for(auto vertex: graph1->getVertexSet()){
+        if(vertex->getNum()==-1){
+            dfs_art(graph1, vertex, art, i);}
     }
 
     cout << "There are " << art.size() << " airports that are essential. Airports:" << endl;
