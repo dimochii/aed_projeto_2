@@ -41,6 +41,8 @@ vector<Airport> Filter::geographicalLocation(Graph *graph, double lat, double lo
  * Esta função calcula a distância entre dois pontos na Terra dadas suas latitudes e longitudes.
  * A fórmula de Haversine é usada para este cálculo.
  *
+ * @complexity O(1).
+ *
  * @param lat1 - Latitude do primeiro ponto em graus.
  * @param lon1 - Longitude do primeiro ponto em graus.
  * @param lat2 - Latitude do segundo ponto em graus.
@@ -296,6 +298,8 @@ void Filter::minAirlines(Graph* g, vector<Airport> sourceV, vector<Airport> dest
  * Esta função recebe uma string contendo nomes de airlines.
  * Procura na hash table de airlines as airlines especificadas e obtem os códigos correspondentes
  * e retorna um vetor contendo esses códigos.
+ *
+ * @complexity O(n+m)   (onde n é o nome da companhia e m é o número total de companhias aéreas)
  *
  * @param str - string com airlines escolhidas.
  * @param airTable - hash table com airlines.
