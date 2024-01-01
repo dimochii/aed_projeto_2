@@ -325,6 +325,8 @@ Airport Menu::askAirport() {
 /**
  * @brief Pede ao usuário o código de um aeroporto.
  *
+ * @complexity O(V).
+ *
  * @return Airport - Retorna o aeroporto correspondente ao código.
  */
 Airport Menu::askAirportCode() {
@@ -343,6 +345,8 @@ Airport Menu::askAirportCode() {
 
 /**
  * @brief Pede ao usuário o nome de um aeroporto.
+ *
+ * @complexity O(V).
  *
  * @return Airport - Retorna o aeroporto correspondente ao nome.
  */
@@ -387,6 +391,8 @@ Airline Menu::askAirline() {
 /**
  * @brief Pergunta ao usuário pelo código de uma airline.
  *
+ * @complexity O(1).
+ *
  * @return Airline - Retorna airline correspondente ao código.
  */
 Airline Menu::askAirlineCode() {
@@ -405,6 +411,8 @@ Airline Menu::askAirlineCode() {
 
 /**
  * @brief Pergunta ao usuário pelo nome de uma airline.
+ *
+ * @complexity O(V).
  *
  * @return Airline - Retorna airline correspondente ao nome.
  */
@@ -425,6 +433,8 @@ Airline Menu::askAirlineName() {
 
 /**
  * @brief Pergunta ao usuário por um nome de cidade.
+ *
+ * @complexity O(1).
  *
  * @return string - Retorna o nome da cidade especificado pelo usuário.
  */
