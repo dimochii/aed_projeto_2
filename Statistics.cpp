@@ -136,7 +136,7 @@ void Statistics::numDestAirportVisit(Vertex *v, set<string> & res, string & fOpt
     v->setVisited(true);
     if (fOption == "city") res.insert(v->getAirport().getCity());
     else if (fOption == "country") res.insert(v->getAirport().getCountry());
-    else if (fOption == "airport") res.insert(v->getAirport().getName());
+    else if (fOption == "airport") res.insert(v->getAirport().getCode());
 
     for (auto & e : v->getFlights()) {
         auto w = e.getDestination();
@@ -180,6 +180,7 @@ void Statistics::numDestinationsAirport( Graph *graph, Airport source, string fO
 vector<Vertex *> Statistics::reachableDestinations(Graph* graph, Airport source, int num) {
     vector<Vertex *> res;
     Vertex* vSource = graph->findVertex(source);
+    bool first = true;
 
     if (vSource != NULL) {
         queue<Vertex *> vQueue;
@@ -187,14 +188,17 @@ vector<Vertex *> Statistics::reachableDestinations(Graph* graph, Airport source,
             vertex->setVisited(false);
 
         vQueue.push(vSource);
-        vSource->setVisited(true);
 
         while ((num != 0) && (!vQueue.empty())) {
             queue<Vertex *> vQueue2;
 
             while (!vQueue.empty()) {
                 Vertex* vertex = vQueue.front(); vQueue.pop();
-                res.push_back(vertex);
+
+                if (!first)
+                    res.push_back(vertex);
+                else
+                    first = false;
 
                 for (Edge edge : vertex->getFlights()) {
                     Vertex* vertex2 = edge.getDestination();
@@ -231,22 +235,24 @@ void Statistics::numberReachable(Graph* graph, Airport source, int num, string m
     set<string> res;
     vector<Vertex *> reachableDest = reachableDestinations(graph, source, num);
 
+    for(auto a: reachableDest){cout << a->getAirport().getCode()<<endl;}
+
     if (mode == "airport") {
         cout << "The airport " << source.getCode() << " has " << reachableDest.size() <<" different "<< mode
-        << " destinations with " << num << " stops." << endl;
+        << " destinations with " << num-1 << " stops." << endl;
 
     }
     else if (mode == "city") {
         for (Vertex * vertex: reachableDest)
             res.insert(vertex->getAirport().getCity());
         cout << "The airport " << source.getCode() << " has " << res.size() <<" different "<< mode
-             << " destinations with " << num << " stops." << endl;
+             << " destinations with " << num-1 << " stops." << endl;
     }
     else if (mode == "country") {
         for (Vertex * vertex: reachableDest)
             res.insert(vertex->getAirport().getCountry());
         cout << "The airport " << source.getCode() << " has " << res.size() <<" different "<< mode
-             << " destinations with " << num << " stops." << endl;
+             << " destinations with " << num-1 << " stops." << endl;
     }
 }
 
