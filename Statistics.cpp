@@ -164,7 +164,6 @@ void Statistics::numDestinationsAirport( Graph *graph, Airport source, string fO
         v->setVisited(false);
 
     numDestAirportVisit(vSource, res, fOption);
-
     cout << "The airport " << source.getCode() << " has " << res.size() <<" different "<< fOption << " destinations." << endl;
 }
 
@@ -195,7 +194,8 @@ vector<Vertex *> Statistics::reachableDestinations(Graph* graph, Airport source,
 
             while (!vQueue.empty()) {
                 Vertex* vertex = vQueue.front(); vQueue.pop();
-                res.push_back(vertex);
+                if(vertex!=vSource)
+                    res.push_back(vertex);
 
                 for (Edge edge : vertex->getFlights()) {
                     Vertex* vertex2 = edge.getDestination();
@@ -212,6 +212,7 @@ vector<Vertex *> Statistics::reachableDestinations(Graph* graph, Airport source,
 
         while (!vQueue.empty()) {
             Vertex* vertex = vQueue.front(); vQueue.pop();
+            if(vertex!=vSource)
             res.push_back(vertex);
         }
     }
@@ -231,6 +232,8 @@ vector<Vertex *> Statistics::reachableDestinations(Graph* graph, Airport source,
 void Statistics::numberReachable(Graph* graph, Airport source, int num, string mode) {
     set<string> res;
     vector<Vertex *> reachableDest = reachableDestinations(graph, source, num);
+
+    for(auto a: reachableDest){cout << a->getAirport().getCode()<<endl;}
 
     if (mode == "airport") {
         cout << "The airport " << source.getCode() << " has " << reachableDest.size() <<" different "<< mode
