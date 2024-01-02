@@ -94,7 +94,7 @@ void Menu::statisticsNumbers() {
     if (option == "4") { statistics4(); }
     if (option == "5") { statistics5(); }
     if (option == "6") { Airport airport = askAirport(); string mode = askMode(); Statistics::numDestinationsAirport(graphAtual, airport, mode); askContinue(); }
-    if (option == "7") { Airport airport = askAirport(); string mode = askMode(); int x = askX(); Statistics::numberReachable(graphAtual, airport, x, mode); askContinue(); }
+    if (option == "7") { Airport airport = askAirport(); string mode = askMode(); int x = askX(); Statistics::numberReachable(graphAtual, airport, x+1, mode); askContinue(); }
     if (option == "8") { statistics(); }
 }
 
@@ -193,7 +193,7 @@ int Menu::askX() {
     cout << "Number of maximum stops: ";
     string n; cin >> n;
 
-    while (!isInteger(n)) {
+    while (!isInteger(n) || stoi(n) < 0) {
         cout << "Invalid, try again. Number of maximum stops: ";
         cin >> n;
     }
