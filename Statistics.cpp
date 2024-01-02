@@ -132,11 +132,11 @@ void Statistics::countriesPerAirport(Graph* g, Airport airport) {
  * @param res - set para armazenar as informações coletadas (cidades, países ou nomes de aeroportos).
  * @param fOption - opção que determina o tipo de informação a ser coletada ("city", "country" ou "airport").
  */
-void Statistics::numDestAirportVisit(Vertex *v, set<string> & res, string & fOption) {
+void Statistics::numDestAirportVisit(Vertex *v, vector<string> & res, string & fOption) {
     v->setVisited(true);
-    if (fOption == "city") res.insert(v->getAirport().getCity());
-    else if (fOption == "country") res.insert(v->getAirport().getCountry());
-    else if (fOption == "airport") res.insert(v->getAirport().getName());
+    if (fOption == "city") res.push_back(v->getAirport().getCity());
+    else if (fOption == "country") res.push_back(v->getAirport().getCountry());
+    else if (fOption == "airport") res.push_back(v->getAirport().getName());
 
     for (auto & e : v->getFlights()) {
         auto w = e.getDestination();
@@ -157,13 +157,14 @@ void Statistics::numDestAirportVisit(Vertex *v, set<string> & res, string & fOpt
  * @param fOption - opção que determina o tipo de destino ("city", "country" ou "airport").
  */
 void Statistics::numDestinationsAirport( Graph *graph, Airport source, string fOption) {
-    set<string> res;
+    vector<string> res;
     Vertex* vSource = graph->findVertex(source);
 
     for (auto v : graph->getVertexSet())
         v->setVisited(false);
 
     numDestAirportVisit(vSource, res, fOption);
+
     cout << "The airport " << source.getCode() << " has " << res.size() <<" different "<< fOption << " destinations." << endl;
 }
 
