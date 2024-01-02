@@ -235,8 +235,6 @@ void Statistics::numberReachable(Graph* graph, Airport source, int num, string m
     set<string> res;
     vector<Vertex *> reachableDest = reachableDestinations(graph, source, num);
 
-    for(auto a: reachableDest){cout << a->getAirport().getCode()<<endl;}
-
     if (mode == "airport") {
         cout << "The airport " << source.getCode() << " has " << reachableDest.size() <<" different "<< mode
         << " destinations with " << num-1 << " stops." << endl;
