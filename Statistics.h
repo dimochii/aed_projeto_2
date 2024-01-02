@@ -19,7 +19,7 @@ public:
     static void countriesPerCity(Graph* g, string city);
     static void countriesPerAirport(Graph* g, Airport airport);
 
-    static void numDestAirportVisit(Vertex* v, vector<string> & res, string & fOption);
+    static void numDestAirportVisit(Vertex* v, set<string> & res, string & fOption);
     static void numDestinationsAirport( Graph *graph, Airport source, string fOption);
 
     static vector<Vertex *> reachableDestinations(Graph* graph, Airport source, int num);
